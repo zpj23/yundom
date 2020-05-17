@@ -1,0 +1,122 @@
+﻿/* ---------------- 样式 --------------------*/
+
+/* 默认格式化*/
+@-moz-document url-prefix(http), url-prefix(file) {img:-moz-broken{-moz-force-broken-image-icon:1;}}
+html { height:100%;}
+body { height:100%;background-image:url(text.txt); background-attachment:fixed;}
+body,div,p,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,select,input,textarea,blockquote,table,th,td{margin:0;padding:0; font-size:12px;}
+a {text-decoration:none;color:#505050;}
+a:hover {text-decoration:none;color:#c00;}
+img {border:0;}
+p {text-align:left;}
+input,textarea,select {vertical-align:middle;}
+hr {margin:0 auto;border-top:1px dotted #D9D9D9;width:98%;height:1px;}
+form {margin:0;padding:0;}
+ul,li {margin:0;padding:0;list-style:none;}
+
+
+body { width:100%; height:100%; overflow:hidden;}
+	.Header { width:100%; float:left; position:relative;}
+		.Header .Top { width:100%; height:73px; float:left; background:#0b683b url(/Images/xxbs/Default_1.jpg) 0 0 no-repeat; border-bottom:1px solid #5994b1;}
+		.Header .Center { width:100%; height:28px; float:left; background:#ebe8e1;}
+			.Header .Center span { float:left; line-height:28px; margin-left:75px; font-weight:bold; color:#0b683b;}
+			.Header .CenterRight { height:28px; float:right; display:inline; margin-right:5px;}
+				.Header .CenterRight a { display:block; height:28px; line-height:28px; color:#0b683c; padding-left:18px; float:left; display:inline; margin-right:15px;}
+					.Header .CenterRight a:hover { text-decoration:underline;}
+					.Header .CenterRight .Link_1 { background:url(/Images/xxbs/Default_17.jpg) 0 center no-repeat;}
+					.Header .CenterRight .Link_2 { background:url(/Images/xxbs/Default_18.jpg) 0 center no-repeat;}
+		.Header .Bottom { width:100%; height:28px; float:left; background:url(/Images/xxbs/Default_5.jpg) 0 0 repeat-x;}
+			.Header .Bottom .Inside { width:100%; height:28px; float:left; background:url(/Images/xxbs/Default_7.jpg) right 0 no-repeat;}
+			.Header .Bottom .Left { width:184px; height:28px; float:left; background:url(/Images/xxbs/Default_4.jpg) 0 0 repeat-x;}
+				.Header .Bottom .LeftInside { height:28px; float:left; display:inline; margin-left:70px; padding-left:30px; background:url(/Images/xxbs/Default_3.jpg) 0 1px no-repeat; line-height:28px;}
+					.Header .Bottom .LeftInside a { color:#fff;}
+					.Header .Bottom .LeftInside span { color:#b30303; text-decoration:underline; font-weight:bold; margin-left:5px;}
+			.Header .Bottom .Right { height:28px; float:left; margin-left:35px; line-height:28px; background:url(/Images/xxbs/Default_6.jpg) 0 center no-repeat; color:#fff; padding-left:15px;}
+				.Header .Bottom .Right a { color:#fff;}
+		.Header .Photo { width:60px; height:56px; position:absolute; top:73px; left:7px; background:#c00 url(/Images/xxbs/Default_2.jpg) 0 0 no-repeat;}
+			.Header .Photo img { width:50px; height:50px; margin:1px 0 0 5px; float:left; display:inline;}		
+	.Middle { width:100%; float:left; overflow:hidden;}
+		.MiddleLeft { width:192px; height:100%; background:#f3efe6; float:left; position:relative;}
+			.MiddleLeft_Nav { width:9px; height:100%; position:absolute; right:0; top:0; background:#0b683b;}
+				.MiddleLeft_Nav table { width:100%; height:100%;}
+					.MiddleLeft_Nav td { height:100%;}
+						.MiddleLeft_Nav td span { display:block; width:100%; height:59px; background:#6fb935 url(../Images/Default_16.jpg) center center no-repeat; cursor:pointer;}
+						.MiddleLeft_Nav #Nav_0 { background:#6fb935 url(/Images/xxbs/Default_16.jpg) center center no-repeat;}
+						.MiddleLeft_Nav #Nav_1 { background:#6fb935 url(/Images/xxbs/Default_16.jpg) center center no-repeat;}
+		/* 首页栏目 */
+		.MiddleRight { height:100%; float:left; overflow:auto;}
+			.MiddleRight .Index { width:1220px; float:left; padding-bottom:30px;}
+				.MiddleRight .Index .Part_Title { width:100%; height:29px; float:left; border-bottom:1px solid #a2c6b4; background:url(/Images/xxbs/Default_19.jpg) 0 0 no-repeat; overflow-y:hidden;}
+					.MiddleRight .Index .Part_Title span { margin-left:29px; font:bold 14px/31px "宋体"; color:#0b683c;}
+					.MiddleRight .Index .Part_Title .TitleRight { width:5px; height:29px; float:right; background:url(/Images/xxbs/Default_19.jpg) right 0 no-repeat;}
+				/* 文件通知 */
+				.MiddleRight .Index .Part_1 { overflow:hidden; width:558px; height:281px; background:#fff; float:left; display:inline; margin: 5px 5px 5px 5px;}
+					.MiddleRight .Index .Part_1 .Main { width:556px; height:250px; float:left; border:1px solid #a2c6b4; border-top:0 none;}
+						.MiddleRight .Index .Part_1 .Main ul { width:526px; float:left; display:inline; margin:12px 15px;}
+							.MiddleRight .Index .Part_1 .Main ul li { width:100%; float:left; line-height:23px;}
+								.MiddleRight .Index .Part_1 .Main ul li span { float:right; color:#666;}
+				/* 统计图 */
+				.MiddleRight .Index .Part_2 { overflow:hidden; width:567px; height:281px; background:#fff; float:left; display:inline; margin:5px 0 5px 5px;}
+					.MiddleRight .Index .Part_2 .Main { width:565px; height:250px; float:left; border:1px solid #a2c6b4; border-top:0 none;}
+				/* 预警信息 */
+				.MiddleRight .Index .Part_3 { overflow:hidden; width:392px; height:252px; background:#fff; float:left; display:inline; margin:5px 5px 5px 5px;}
+					.MiddleRight .Index .Part_3 .Main { width:390px; height:221px; float:left; border:1px solid #a2c6b4; border-top:0 none;}
+					.MiddleRight .Index .Part_3 .Main ul { width:360px; float:left; display:inline; margin:12px 15px;}
+							.MiddleRight .Index .Part_3 .Main ul li { width:100%; float:left; line-height:23px;}
+								.MiddleRight .Index .Part_3 .Main ul li span { float:right; color:#666;}
+				/* 分析报告 */
+				.MiddleRight .Index .Part_4 { overflow:hidden; width:438px; height:252px; background:#fff; float:left; display:inline; margin:5px 5px 5px 5px;}
+					.MiddleRight .Index .Part_4 .Main { width:436px; height:221px; float:left; border:1px solid #a2c6b4; border-top:0 none;}
+						.MiddleRight .Index .Part_4 .Main table { background:#dfdfdf; width:100%;}
+							.MiddleRight .Index .Part_4 .Main td { background:#fff; height:29px;}
+							.MiddleRight .Index .Part_4 .Main th { background:#f1f1f1; color:#767676;}
+								.MiddleRight .Index .Part_4 .Main th span { font-weight:bold; color:#0c572b;}
+								.MiddleRight .Index .Part_4 .Main td .text_1 { width:45px; height:29px; border:0 none; text-align:center;}
+								.MiddleRight .Index .Part_4 .Main td .text_2 { width:30px; height:29px; border:0 none; text-align:center;}
+						.MiddleRight .Index .Part_4 .Main_0 { width:100%; float:left; margin-top:7px;}
+						.MiddleRight .Index .Part_4 .Main_1 { width:100%; float:left; margin-top:7px;}
+						.MiddleRight .Index .Part_4 .Main_2 { width:100%; float:left; margin-top:7px;}
+						.MiddleRight .Index .Part_4 .Main_3 { width:100%; float:left; margin-top:7px;}
+						.MiddleRight .Index .Part_4 .Main_4 { width:100%; float:left; margin-top:7px;}
+				/* 四个图标 */
+				.MiddleRight .Index .Part_5 { overflow:hidden; width:283px; height:250px; background:#fff; border:1px solid #a2c6b4; float:left; display:inline; margin:5px 5px 5px 5px;}
+					.MiddleRight .Index .Part_5 .Main { width:100%; height:100%; float:left;}
+						.MiddleRight .Index .Part_5 .Main ul { width:230px; float:left; display:inline; margin-left:40px; margin-top:10px;}
+							.MiddleRight .Index .Part_5 .Main li { width:70px; height:70px; float:left; display:inline; margin:15px;}
+	.Footer { width:100%; height:40px; border-top:1px solid #ccc; float:left; background:url(../Images/Default_13.jpg) 0 0 repeat-x; text-align:center; line-height:31px;}
+		.Footer .Logo { display:block; width:169px; height:17px; float:left; display:inline; margin-left:40%; margin-top:15px;}
+		.Footer table { float:right;}
+			.Footer table td { height:43px; color:#777777;}
+				.Footer table td a { color:#777777; line-height:43px;}
+					.Footer table td a:hover { color:#000;}
+				.Footer table td img { margin-right:10px;}
+/* 菜单样式 */
+.Menu_style { width:100%; height:100%; float:left; overflow-x:hidden;}
+	.Menu_style .title { width:183px; height:42px; float:left;}
+	.Menu_style .main { width:100%; float:left; overflow:hidden;}
+		.Menu_style .main p { display:block; width:140px; height:30px; float:left; line-height:30px; padding-left:43px; color:#333; background:url(/Images/xxbs/Default_10.jpg) 0 0 no-repeat; cursor:pointer;}
+		.Menu_style .main .p_over { display:block; width:135px; height:29px; float:left; line-height:29px; padding-left:53px; color:#fff; font-weight:bold; background:url(/Images/xxbs/Default_14.jpg) 0 0 repeat-x; cursor:pointer;}
+			.Menu_style .main .menu_body { width:100%; float:left; background:#dddad1; padding-bottom:10px; display:none; overflow:hidden;}
+				.Menu_style .main .menu_body ul { width:100%; float:left;}
+					.Menu_style .main .menu_body li { width:100%; height:25px; float:left; position:relative;}
+						.Menu_style .main .menu_body li a { display:block; width:141px; padding-left:42px; height:25px; line-height:25px; color:#09502e; float:left;}
+							.Menu_style .main .menu_body li a:hover { background:#b2cd94; text-decoration:none;}
+							.Menu_style .main .menu_body li .over { background:#b2cd94; color:#05532d;}
+								.Menu_style .main .menu_body li .over:hover { background:#b2cd94;}
+							
+							
+/* 登录 */
+.LoginOutside { width:1050px; height:640px; background:url(/Images/xxbs/Default_0.jpg) 0 0 no-repeat; position:fixed; top:50%; left:50%; margin:-320px 0 0 -525px;}
+	.LoginOutside:after{ content: "."; display:block; height:0; clear:both; visibility:hidden;}
+	.LoginOutside table { margin:325px 0 0 345px;}
+		.LoginOutside table td .text_1 { width:107px; height:11px; border:0 none; line-height:11px; padding:3px; color:#444; background:none;}
+		.LoginOutside table td .submit_1 { width:58px; height:24px; float:right; border:0 none; cursor:pointer; background:none;}
+		
+
+ .Index .Part_2 .main_s { width:100%; height:29px; float:left; background:url(/images/new/Table_1.jpg) 0 0 repeat-x; border-bottom:1px solid #dbdbdb;}			
+	.Index .Part_2 .main_s ul { height:29px; float:left; margin-left:25px;}
+	.Index .Part_2 .main_s li { width:111px; height:29px; line-height:29px; text-align:center; color:#444; float:left; display:inline; margin-right:10px;}
+	.Index .Part_2 .main_s li a { display:block; width:111px; height:29px; float:left;}
+	.Index .Part_2 .main_s li a:hover { background:url(/images/new/Right_3.jpg) 0 5px no-repeat; color:#fff; text-decoration:none;}
+	.Index .Part_2 .main_s li .over { background:url(/images/new/Right_3.jpg) 0 5px no-repeat; color:#fff; text-decoration:none;}
+					

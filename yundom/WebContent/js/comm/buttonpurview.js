@@ -1,0 +1,2 @@
+
+window.onload=common.buttonPurview;

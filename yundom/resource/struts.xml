@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"struts-2.3.dtd">
+
+<struts>
+	<!-- 使用Spring struts-->
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+	<!-- 开发者模式，正式部署时要设置成false -->
+	<!-- <constant name="struts.devMode" value="false" /> -->
+	<!-- 该属性设置当struts.xml文件改变后，系统是否自动重新加载该文件。该属性的默认值是false -->
+	<constant name="struts.configuration.xml.reload" value="false" />
+	<!-- 上传文件路径 -->
+	<constant name="struts.multipart.saveDir" value="/upload"></constant>
+	<!-- 设置在class被修改时是否热加载，发布时要设置为false -->
+<!-- 	<constant name="struts.convention.classes.reload" value="true"/> -->
+	<!-- 自动动态方法的调用，使用这个设置后可以这样调用：action!method -->
+<!-- 	<constant name="struts.enable.DynamicMethodInvocation" value="true" /> -->
+
+
+	<constant name="struts.multipart.maxSize" value="2097152000000"/>
+	<!-- 设置struts所排除的url（通过正则表达式匹配）（支持多个，以逗号隔开） -->
+	<constant name="struts.action.excludePattern" value="/service/.*"/>
+	<!-- 指定jsp文件所在的目录地址 结果页面存储路径 -->
+	<constant name="struts.convention.result.path" value="/WEB-INF/content" />  
+	<!-- struts-default -->
+	<package name="default" extends="json-default" namespace="/">
+	
+		<interceptors>
+			 <!--使用权限拦截 -->
+			<!--<interceptor name="authority" class="com.goldenweb.fxpg.interceptor.AuthorityInterceptor"/> -->
+			<!-- 异常拦截  -->
+			<interceptor name="exceptionInterceptor" class="com.jl.common.interceptor.ExceptionInterceptor"/>
+			 <!--解决struts安全漏洞，拦截所有的带有#号的url  -->
+			<interceptor-stack name="baseStack">
+				<!--<interceptor-ref name="authority"/>-->
+				<interceptor-ref name="exceptionInterceptor"/>
+				<interceptor-ref name="params">   
+					<param name="excludeParams">.*\\u0023.*</param>   
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+		 <!--配置默认拦截器栈       -->
+		<default-interceptor-ref name="baseStack"/>
+		<global-results>
+			<result name="login">/index.jsp</result>
+			<result name="error">/error.jsp</result>
+		</global-results>
+	</package>
+	
+</struts>

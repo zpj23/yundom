@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+ 
+    <context:property-placeholder 
+     ignore-unresolvable="true" local-override="true"
+     location="classpath:system.properties"/>
+ 
+    <bean id="multiDataSource" class="com.jl.common.MultiDataSource">  
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <property name="driverClassName" value="${jdbc.default.driverClassName}" />
+		<property name="url" value="${jdbc.default.url}" />
+		<property name="username" value="${jdbc.default.username}" />
+		<property name="password" value="${jdbc.default.password}" />
+		<!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->  
+		<property name="filters" value="stat" />
+		<!-- 配置初始化大小、最小、最大 -->  
+		<property name="initialSize" value="1" />
+		<property name="minIdle" value="1" />
+		<property name="maxActive" value="20" />
+		<!-- 配置获取连接等待超时的时间 -->  
+		<property name="maxWait" value="60000" />
+		 <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->  
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->  
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	</bean>
+	<!-- Spring帮创建hibernate的SessionFactory 不用手动创建 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="multiDataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>	
+				<!-- 在sessionFactory配置文件中
+					应将hibernate.current_session_context_class设为org.springframework.orm.hibernate3.SpringSessionContext（默认为此值）
+					应当把session要绑定的上下文设置为由spring环境管理(因为我们的事务aop也是在spring范围中),这个时候spring中的事务配置才会起作用(当然,以前是thread上下文环境的session,而事务托管在spring上下文中,当然spring无法管理到thread上下文的session的事务咯) -->
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>			
+				<!-- 可以通过参数配置，让Hibernate在每次需要从数据库查询记录或者每次插入、更新数据库记录时，将相应的SQL语句输出到控制台 -->
+				<prop key="hibernate.show_sql">false</prop>
+				<!-- 输出格式化后的sql,更方便查看-->
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- 自动创建|更新|验证数据库表结构
+				create 每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因 
+				create-drop ：每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。
+				update:第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等应用第一次运行起来后才会。
+				validate :  每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。
+				none ：什么都不处理
+				-->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				
+				<prop key="javax.persistence.validation.mode">none</prop>
+				<prop key="hibernate.archive.autodetection">none</prop>
+				<prop key="hibernate.query.startup_check">false</prop>
+				
+			</props>
+		</property>
+		<!-- 扫描实体类 -->
+		<property name="packagesToScan">
+			<list>
+				<value>com.jl.sys.pojo</value>
+				<value>com.jl.material.pojo</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 申明代理 proxy-target-class属性，默认为false，表示使用jdk动态代理织入增强，当配为<aop:aspectj-autoproxy  
+poxy-target-class="true"/>时，表示使用CGLib动态代理技术织入增强。不过即使proxy-target-class设置为false，如果目标类没有声明接口，则spring将自动使用CGLib动态代理。 -->
+ 	<aop:aspectj-autoproxy />
+ 	
+    <bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
+  	
+	<!-- 定义事务管理器 hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到 -->
+ 	<bean id="txManager"  class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+  		<property name="sessionFactory" ref="sessionFactory" />
+ 	</bean>
+ 	<!-- 申明annotation 加载事务驱动 -->
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+        	<!-- 权限高 ，增删改查都可以 -->
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="create*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="merge*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="remove*" propagation="REQUIRED" />
+            <tx:method name="deal*" propagation="REQUIRED" />
+            <tx:method name="put*" propagation="REQUIRED" />
+            <tx:method name="upload*" propagation="REQUIRED"/>
+            <tx:method name="new*" propagation="REQUIRED"/>
+            <!--只读-->
+            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="show*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="count*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="list*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config expose-proxy="true">
+        <!-- 只对业务逻辑层实施事务      execution(* com.goldenweb.*.*..service.*.*(..))-->
+        <aop:pointcut id="txPointcut" expression="execution(* com.*.*.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+        <aop:aspect id="dd" ref="logpointService">
+	      <aop:around method="log2" pointcut-ref="txPointcut"/>
+	    </aop:aspect>
+    </aop:config>
+    
+	<!-- 自动扫描包  注解 自动扫描Spring注解 @Component @Service @Repository @Constroller -->
+ 	<context:component-scan
+	base-package="com.jl.sys.*,com.jl.material.*"
+	annotation-config="true" />
+ 	
+ 	<!--  OracleLobHandler  -->
+ 	<bean id="lobHandler" lazy-init="true" class="org.springframework.jdbc.support.lob.OracleLobHandler">
+		<property name="nativeJdbcExtractor">
+			<ref bean="nativeJdbcExtractor" />
+		</property>
+	</bean>
+	
+	<!--  CommonsDbcpNativeJdbcExtractor -->
+	<bean id="nativeJdbcExtractor" lazy-init="true" class="org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor" />
+ 	
+    <bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="multiDataSource" />
+		</property>
+	</bean>	
+	
+<!-- 	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">  -->
+<!-- 	  <constructor-arg ref="multiDataSource" /> -->
+<!--     </bean> -->
+	<!-- 容器启动时 -->
+<!-- 	<bean id="resourceService" class="com.goldenweb.sys.service.impl.ResourceServiceImpl"> -->
+<!-- 	   <property name="resourceDao" ref="resourceDao"></property> -->
+<!-- 	   <property name="itemDao" ref="itemDao"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="resourceDao" class="com.goldenweb.sys.dao.impl.ResourceHibernateDao"> -->
+<!-- 	    <property name="sessionFactory" ref="sessionFactory" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="itemDao" class="com.goldenweb.sys.dao.impl.ResourceItemHibernateDao"> -->
+<!-- 	    <property name="sessionFactory" ref="sessionFactory" /> -->
+<!-- 	</bean> -->
+	
+	
+	<!-- 日志记录 -->
+	<bean id="logpointService" class="com.jl.common.LogServiceImpl"></bean>
+	
+<!-- 	 spring-session -redis 配置 -->
+<!-- 	    默认0 Redis默认有16个库,默认连接的是 index=0 的那一个。这16个库互相之间是独立的。类似于同一MySQL服务器里面的多个数据库。 -->
+<!-- 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"/> -->
+<!-- 	<bean id="jedisConnectionFactory"  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"> -->
+<!-- 	    <property name="hostName" value="127.0.0.1" /> -->
+<!-- 	    <property name="password" value="123456" /> -->
+<!-- 	    <property name="port" value="6379" /> -->
+<!-- 	    <property name="database" value="0" /> -->
+<!-- 	    <property name="poolConfig" ref="jedisPoolConfig" /> -->
+<!--         <property name="usePool" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"> -->
+<!--         <property name="connectionFactory" ref="jedisConnectionFactory" /> -->
+<!--     </bean> -->
+<!--     <bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"> -->
+<!--         <property name="maxInactiveIntervalInSeconds" value="3600" /> -->
+<!--     </bean> -->
+    
+    
+    
+    
+	<!-- quartz -->
+<!-- 	    <bean id="jobFactory" class="com.goldenweb.job.utils.MyJobFactory"></bean>   -->
+<!--     <bean id="Scheduler"   class="org.springframework.scheduling.quartz.SchedulerFactoryBean">   -->
+<!--         <property name="jobFactory" ref="jobFactory" />    -->
+<!--     </bean>  -->
+ </beans>

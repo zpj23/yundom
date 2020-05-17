@@ -1,0 +1,133 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Insert title here</title>
+		<link rel="stylesheet" href="css/default.css" type="text/css" />
+		<link rel="stylesheet" href="js/ztree/css/demo.css" type="text/css">
+		<link rel="stylesheet" href="js/ztree/css/zTreeStyle/zTreeStyle.css"
+			type="text/css">
+		<script type="text/javascript" src="js/ztree/js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="js/dialog/jquery_dialog.js"></script>
+		<script type="text/javascript"
+			src="js/ztree/js/jquery.ztree.core-3.5.js"></script>
+
+
+		<script type="text/javascript">
+	var setting = {
+		data : {
+			simpleData : {
+				enable : true
+			}
+		}
+	};
+
+	var zNodes = ${orgjson};
+	
+	$(document).ready(function() {
+		$.fn.zTree.init($("#treeMenuDiv"), setting, zNodes);
+		
+		initOrg('${orgids}','${orgnames}');
+	});
+	
+	
+	//已选择的角色
+	function initOrg(orgids, orgnames) {
+		if (orgids != '') {
+			var ids = orgids.split(",");
+			var names = orgnames.split(",");
+			for ( var i = 0; i < ids.length; i++) {
+				if (ids[i] != '') {
+					$("#deptselect").append(
+							"<option value='"+ids[i]+"' >" + names[i]
+									+ "</option>");
+				}
+			}
+		}
+	}
+
+	function Ok() {
+		var isone = $("#isone").val();
+		var selectName = document.getElementById("deptselect");
+		if (isone == 'one') {//单选
+			if (selectName.options.length > 1) {
+				alert("只能选择一个角色!");
+				return false;
+			}
+		}
+
+		var deptid = $("#deptid").val();
+		if (deptid != '') {
+			deptid = deptid.substring(0, deptid.length - 1);
+		}
+		var deptname = $("#deptname").val();
+		if (deptname != '') {
+			deptname = deptname.substring(0, deptname.length - 1);
+		}
+		var tagid = $("#tagid").val();
+		var tagname = $("#tagname").val();
+
+		return true + "-" + deptid + "-" + deptname + "-" + "chooseNodeOrgs" + "-"
+				+ tagid + "-" + tagname;
+
+	}
+
+	//点击选择一个部门
+
+	function getOneDeptInfo(id, name) {
+		var iid = $("#deptid").val();
+		if (("," + iid).indexOf(',' + id + ',') < 0) {
+			$("#deptselect").append(
+					"<option value='"+id+"' >" + name + "</option>");
+
+			var iname = $("#deptname").val();
+			$("#deptid").val(iid + id + ",");
+			$("#deptname").val(iname + name + ",");
+		}
+
+	}
+
+	function canclethisDept() {
+		var checkText = $("#deptselect").find("option:selected").text(); //获取Select选择的Text   
+		var checkValue = $("#deptselect").val(); //获取Select选择的Value   
+
+		var iid = $("#deptid").val();
+		var iname = $("#deptname").val();
+		iid = iid.replace(checkValue + ",", "");
+		iname = iname.replace(checkText + ",", "");
+		$("#deptid").val(iid);
+		$("#deptname").val(iname);
+		//删除所选项
+		$("#deptselect option[value='" + checkValue + "']").remove();
+	}
+</script>
+
+
+	</head>
+	<body>
+		<div class="content_wrap">
+			<div class="zTreeDemoBackground left">
+				<ul id="treeMenuDiv" class="ztree"></ul>
+			</div>
+			<div class="right">
+				<select multiple="multiple"
+					style="margin-top: 10px; width: 200px; height: 370px;"
+					id="deptselect" ondblclick="canclethisDept()">
+					<c:forEach items="${selectorgs}" var="a">
+						<option value="${a[0]}">
+							${a[1]}
+						</option>
+					</c:forEach>
+				</select>
+			</div>
+			<input type="hidden" id="deptid" value="${orgids }" />
+			<input type="hidden" id="deptname" value="${orgnames }" />
+			<input type="hidden" id="isone" value="${isone}" />
+			<input type="hidden" id="tagid" value="${tagid}" />
+			<input type="hidden" id="tagname" value="${tagname}" />
+		</div>
+	</body>
+</html>

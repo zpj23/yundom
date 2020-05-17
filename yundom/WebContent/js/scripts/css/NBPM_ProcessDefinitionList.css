@@ -1,0 +1,14 @@
+﻿@import 'CSS_Basic.css';
+.Default_Out { width: 100%; height: 100%; color: #3d3d3d; }
+.Default_Out .Default_Next { width: 95%; }
+.TableCss { line-height: 23px; border: 1px #cccccc solid; background-color: #FFFFFF; width: 100%; }
+.TableCss td { border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; }
+.TableCss .BigButton { font-size: 12px; margin: 3px; height: 20px; width: 50px; border: 1px solid #6E91C7; background-color: #F4FBE1; }
+.TableCss .BigButton:hover { font-size: 12px; color: #395500; background-color: #F4FADF; border: 1px solid #80AA00; border-top: 1px solid #99CC00; border-left: 1px solid #99CC00; }
+.TableCss .tr_even { background-color: #FAFAFA; }
+/*奇数行样式*/
+.TableCss .tr_odd { background-color: white; }
+/*偶数行样式*/
+.TableCss .tr_onmouseover { background-color: #EFEFEF; }
+
+.page { margin: 5px 0px 0px 0px; }

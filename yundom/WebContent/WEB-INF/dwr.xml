@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">   
+  
+<dwr>   
+   
+  <allow>   
+   
+   <filter class="org.directwebremoting.filter.AuditLogAjaxFilter"/>  
+  
+   <convert  converter="bean"   match="com.goldenweb.sys.pojo.SysUserinfo"></convert>
+    <create creator="spring" javascript="userinfoService" scope="request">
+       <param name="beanName" value="userinfoService"/>
+       <include method="checkLogin" />   
+       <include method="checkSeesionExists" />
+    </create> 
+  
+ <convert  converter="bean"   match="com.goldenweb.sys.pojo.SysOrganization"></convert>
+    <create creator="spring" javascript="orgService" scope="request">
+       <param name="beanName" value="organizationService"/>   
+       <include method="showOneOrg" />
+       <include method="saveOrg" />
+       <include method="delOrg" />
+       <include method="showUserOfOrg" />
+       <include method="showUserOfSearchname" />
+   </create>   
+      
+      <convert  converter="bean"   match="com.goldenweb.sys.pojo.SysResourceItem"></convert>
+     <create creator="spring" javascript="resourceDwr" scope="request">
+       <param name="beanName" value="resourceService"/>   
+       <include method="showOneItem" />
+       <include method="saveItem" />
+       <include method="delItem" /> 
+       <include method="refreshResourceData" />  
+    </create>   
+    
+    <convert  converter="bean"   match="com.goldenweb.sys.pojo.SysFunction"></convert>
+     <create creator="spring" javascript="functionDwr" scope="request">
+       <param name="beanName" value="functionService"/>   
+       <include method="showOneFunction" />
+       <include method="saveFunction" />
+       <include method="delFunction" />   
+    </create>  
+    
+    <convert  converter="bean"   match="com.goldenweb.sys.pojo.SysFunctionuser"></convert>
+    <convert  converter="bean"   match="com.goldenweb.sys.pojo.SysFunctionorganization"></convert>
+    <convert  converter="bean"   match="com.goldenweb.sys.pojo.SysRolefunction"></convert>
+     <create creator="spring" javascript="purviewDwr" scope="request">
+       <param name="beanName" value="purviewService"/>   
+       <include method="findOperateByFunid" />
+    </create>  
+    
+ <!--
+     this is a bad idea for live, but can be useful in testing  
+        
+    <convert converter="exception" match="java.lang.Exception"/>   
+    <convert converter="bean" match="java.lang.StackTraceElement"/>   
+   -->
+   
+  </allow>   
+ 
+ <signatures> 
+    <![CDATA[ 
+        import java.util.List;
+        import com.goldenweb.sys.service.OrgServiceDwr;
+        import com.goldenweb.sys.pojo.SysOrganization;
+        import com.goldenweb.sys.pojo.SysResourceItem;
+        import com.goldenweb.sys.pojo.SysFunction;
+        
+        orgService.saveOrg(List<SysOrganization> list);
+        resourceDwr.saveItem(List<SysResourceItem> list);
+        functionDwr.saveFunction(List<SysFunction> list);
+    ]]> 
+</signatures> 
+
+</dwr>  

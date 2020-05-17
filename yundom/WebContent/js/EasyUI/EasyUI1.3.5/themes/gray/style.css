@@ -1,0 +1,111 @@
+
+/*******表单******/
+/* table{
+	font-size:12px;
+}
+.tableForm {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.tableForm th, .tableForm td {
+    border: 1px solid #D1D7DC;
+    padding: 0.3em 0.7em;
+    text-align: left;
+}
+.tableForm th {
+    background: none repeat scroll 0 0 #F8F8F8;
+    text-align: center;
+    font-weight:normal;
+}
+.tableForm thead th {
+    text-align: center;
+}
+.tableForm tbody th {
+    text-align: right;
+}
+.tableForm tr:hover {
+    background-color: #F6FAFD;
+}
+.tableForm td:hover {
+    background-color: #F9FEFF;
+} */
+/*******表单******/
+
+/*******layout*****/
+.easyui-layout{
+	height: 100%;
+}
+/*********layout*******/
+
+fieldset {
+    border: 1px dotted #D1D7DC;
+}
+legend {
+    border: 1px dotted #D1D7DC;
+    font-size: small;
+}
+
+form{
+    /*height: 100%;*/
+}
+label{
+    vertical-align: middle;
+}
+.form { 
+    margin: 5px;
+}
+input[type=text],input[type=password],textarea{
+    border:1px  #D4D4D4 solid;
+    /*height: 18px;*/
+    vertical-align: middle;
+}
+.img-btn{
+    margin: 0 5px;
+    padding: 2px 0 2px 16px;
+    cursor:pointer;
+}
+.img-btn:hover{
+    border: 1px  #D4D4D4 solid;
+}
+div.loading{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2147483646;
+    opacity: 0.1;
+    background: #000;
+    height: 100%;
+    width: 100%;
+    cursor: progress;
+    display: none;
+}
+div.progress{
+    display: none;
+    position: absolute;
+    top:0;
+    right:0;
+    text-align: center;
+    font-size: 12px;
+    width: 128px;
+    height: 25px;
+    color: #000;
+    background: #0092DC;
+    z-index: 2147483647;
+    background: url('../Images/ajax-loader.gif') no-repeat;
+}
+
+.user_info{
+    position: absolute;
+    right: 0;
+    line-height: 20px;
+}
+
+.system_controller{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.tree li {
+margin: 2px 0;
+}
