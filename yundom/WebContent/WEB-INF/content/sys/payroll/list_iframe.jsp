@@ -229,7 +229,17 @@ function bindInfo(ri){
 				$(et.target).bind("keyup", function(){
 	            	chf($(this),"jbgzhjj");
 	            });
-			}else if(et.field == "qtkk"){
+			}else if(et.field == "fybt"){
+                //费用补贴
+                $(et.target).bind("keyup", function(){
+                    chf($(this),"fybt");
+                });
+            }else if(et.field == "mq"){
+                //满勤
+                $(et.target).bind("keyup", function(){
+                    chf($(this),"mq");
+                });
+            }else if(et.field == "qtkk"){
 				//其他扣款
 				$(et.target).bind("keyup", function(){
 	            	chf($(this),"qtkk");
@@ -269,7 +279,30 @@ function chf(textarea,tfield){
 				var jbgz=yfgz-newval;
 				$(edr[8].target).val(jbgz.toFixed(2));
 			}
-		}else if(tfield=="qtkk"){
+		}else if(tfield=="fybt"){
+            //判断如果改变的是费用补贴，则用总工资=应发工资+劳护补贴+费用补贴+满勤-其他扣款
+            var yfgz=$(edr[10].target).val();//应发工资
+            var lhbt=$(edr[11].target).val();//劳护补贴
+            var mq=$(edr[13].target).val();//满勤
+            var qtkk=$(edr[14].target).val();//其他扣款
+            var zgz=parseFloat(yfgz)+parseFloat(lhbt)+parseFloat(newval)+parseFloat(mq)-parseFloat(qtkk);
+            $(edr[15].target).val(zgz.toFixed(2));
+            var yfgzy=$(edr[16].target).val();
+            var sygz=zgz-parseFloat(yfgzy);
+            $(edr[17].target).val(sygz.toFixed(2));
+        }else if(tfield=="mq"){
+            //判断如果改变的是满勤，则用总工资=应发工资+劳护补贴+费用补贴+满勤-其他扣款
+            var yfgz=$(edr[10].target).val();//应发工资
+            var lhbt=$(edr[11].target).val();//劳护补贴
+            var fybt=$(edr[12].target).val();//费用补贴
+            var qtkk=$(edr[14].target).val();//其他扣款
+            var zgz=parseFloat(yfgz)+parseFloat(lhbt)+parseFloat(fybt)+parseFloat(newval)-parseFloat(qtkk);
+            $(edr[15].target).val(zgz.toFixed(2));
+            var yfgzy=$(edr[16].target).val();
+            var sygz=zgz-parseFloat(yfgzy);
+            $(edr[17].target).val(sygz.toFixed(2));
+
+        }else if(tfield=="qtkk"){
 			//判断如果改变的是其他扣款，则  总工资=应发工资+劳护补贴+费用补贴+满勤-其他扣款
 			var yfgz=$(edr[10].target).val();//应发工资
 			var lhbt=$(edr[11].target).val();//劳护补贴
@@ -388,8 +421,8 @@ function outputparam(username,yuefen){
             <th rowspan="2" field="jbgzhjj" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" ><font color='red'>加班工资和奖金</font></th>  
             <th rowspan="2" field="yfgz" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" ><font color='green'>应发工资</font></th>  
             <th rowspan="2" field="lhbt" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" ><font color='green'>劳护补贴</font></th>  
-            <th rowspan="2" field="fybt" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" >费用补贴（元）</th>  
-            <th rowspan="2" field="mq" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" >满勤</th>  
+            <th rowspan="2" field="fybt" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" ><font color='red'>费用补贴（元）</font></th>  
+            <th rowspan="2" field="mq" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" ><font color='red'>满勤</font></th>  
             <th rowspan="2" field="qtkk" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" ><font color='red'>其他扣款</font></th> 
             <th rowspan="2" field="zgz" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" >总工资（元）</th>
             <th rowspan="2" field="yfgzy" data-options="editor:{type:'numberbox',options:{precision:2}},width:65,resizable:'true'" align="center" ><font color='red'>预付工资（元）</font></th>

@@ -1,0 +1,196 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    font-family: "微软雅黑"
+}
+
+body {
+    background: url(../image/bg.gif);
+}
+
+.login_form {
+    height: 100%;
+    box-sizing: border-box;
+    width: 60%;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login_form>h1 {
+    font-size: 42px;
+    color: #fff;
+    font-family: "微软雅黑";
+    letter-spacing: 3px;
+}
+.logo{
+	position: absolute;
+	top: -200%;
+	right: 0;
+}
+.login_form>h1:last-of-type {
+    font-size: 48px;
+    margin-bottom: 63px;
+}
+
+.form_put {
+    width: 382px;
+    height: 130px;
+    background: #fff;
+    border-radius: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.form_put::after {
+    position: absolute;
+    height: 1px;
+    background: #DFDFDF;
+    left: 10px;
+    right: 10px;
+    top: 65px;
+    content: " ";
+}
+
+.txt_put {
+    padding-left: 45px;
+    height: 36px;
+    margin-left: 10px;
+}
+
+.txt_put input {
+    border: 0;
+    height: 36px;
+    width: 90%;
+    outline: none;
+    font-size: 16px;
+    font-family: "微软雅黑"
+}
+
+.mt25 {
+    margin-top: 25px;
+}
+
+.txt_name {
+    background: url(../image/zi3.png) 10px center no-repeat;
+}
+
+.txt_password {
+    background: url(../image/zi4.png) 10px center no-repeat;
+}
+
+.down_a {
+    width: 382px;
+    text-align: right;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 45px;
+}
+
+.down_a a {
+    background: url(../image/zi6.png) left center no-repeat;
+    padding-left: 30px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.quan {
+    height: 100%;
+    width: 40%;
+    left: 0;
+    top: 0;
+    /* background: url(../image/zi1.png) center center no-repeat; */
+    background-size: auto 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.quan img {
+    width: 80%;
+    position: absolute;
+    top: 15%;
+    left: 18%;
+	opacity: .5;
+    animation: spin2 10s linear infinite
+}
+
+.btn_submit {
+    background:#4278E4 ;
+    width: 382px;
+    height: 51px;
+    border: 0;
+    color: #fff;
+    font-size: 22px;
+    outline: none;
+    cursor: pointer;
+    font-family: "微软雅黑";
+    letter-spacing: 2px;
+	border-radius: 10px;
+}
+
+.top_right_img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    animation: opct 3s linear infinite
+}
+
+.bottom_right_img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    animation: opct2 3s linear infinite
+}
+.copy{
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	position: fixed;
+	left: 0;
+	width: 100%;
+	bottom: 5%;
+}
+@keyframes spin2 {
+    0% {
+        transform: rotateY(0) rotateX(0) rotateZ(0deg);
+    }
+    50% {
+        transform: rotateY(0) rotateX(0) rotateZ(180deg);
+    }
+    100% {
+        transform: rotateY(0) rotateX(0) rotateZ(360deg);
+    }
+}
+
+@keyframes opct {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5
+    }
+    50% {
+        transform: scale(1);
+        opacity: 1
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0.5
+    }
+}
+
+@keyframes opct2 {
+    0% {
+        transform: scale(1);
+        opacity: 1
+    }
+    50% {
+        transform: scale(0.8);
+        opacity: .5
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1
+    }
+}
