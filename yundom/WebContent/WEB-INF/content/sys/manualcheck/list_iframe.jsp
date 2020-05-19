@@ -75,6 +75,13 @@ $(document).ready(function(){
 		        return content;  
 		    } 
 		},{
+			field : 'gx',
+			title : '工序',
+			width : 40,
+			formatter:function(value,row){  
+		        return value;  
+		    } 
+		},{
 			field : 'workcontent',
 			title : '工作内容',
 			width : 100,
