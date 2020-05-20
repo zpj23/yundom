@@ -219,7 +219,7 @@ function initInfo(){
 </head>
 <body style="width: auto;height: auto">
 <div class="pd-20" style="padding-top:20px;height: 100%;">
-  <p class="f-20 text-success">企业管理系统 <span class="f-14">v1.0</span>
+  <p class="f-20 text-success">后台管理系统 <span class="f-14">v1.0</span>
   </p>
 
 <!--   <p>登录次数：18 </p> -->

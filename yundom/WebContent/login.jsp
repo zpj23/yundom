@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>鋆鼎</title>
+<title>南通鋆鼎精密</title>
 <link rel="stylesheet" type="text/css" href="login/css/base.css">
     <link rel="stylesheet" type="text/css" href="login/css/login.css">
 </head>
@@ -59,7 +59,7 @@ function checkLogin() {
     </div>
     <img src="login/image/zi7.png" alt="" class="top_right_img">
     <img src="login/image/zi8.png" alt="" class="bottom_right_img">
-	<div class="copy">鋆鼎提供 @ 技术支持</div>
+	<div class="copy">南通鋆鼎精密金属制造有限公司提供 @ 技术支持</div>
 
 </body>
 </html>

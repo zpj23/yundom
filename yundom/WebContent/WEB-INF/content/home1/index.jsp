@@ -30,7 +30,7 @@
 <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>系统</title>
+<title>后台管理系统</title>
 <script type="text/javascript" src="newUI/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="newUI/lib/layer/2.1/layer.js"></script> 
 <script type="text/javascript" src="newUI/js/H-ui.js"></script> 
@@ -108,7 +108,7 @@ function loginOut(){
 </head>
 <body id="mainbody"> 
 <form action="jlLoginAction_loginOut" method="post" id="form1" name="form1"></form>
-<header class="Hui-header cl"> <a class="Hui-logo l" title="H-ui.admin v2.3" href="/">企业管理系统</a> <a class="Hui-logo-m l" href="/" title="H-ui.admin">H-ui</a> <span class="Hui-subtitle l">V1.0</span>
+<header class="Hui-header cl"> <a class="Hui-logo l" title="H-ui.admin v2.3" href="/">后台管理系统</a> <a class="Hui-logo-m l" href="/" title="H-ui.admin">H-ui</a> <span class="Hui-subtitle l">V1.0</span>
 	<nav class="mainnav cl" id="Hui-nav" style="display:none;">
 		<ul>
 			<li class="dropDown dropDown_click"><a href="javascript:;" aria-expanded="true" aria-haspopup="true" data-toggle="dropdown" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i class="Hui-iconfont">&#xe6d5;</i></a>

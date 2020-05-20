@@ -30,6 +30,8 @@ public class CheckInfo implements java.io.Serializable{
 	private String shenhe;//审核功能 0待审核，1已审核
 	private String sgxm;//address字段分出来的施工项目
 	private String sgqy;//address字段分出来的施工区域
+	private String gx;//工序（字典）
+	
 	@Id
 	@Column(name = "id", nullable = false, length=50)
 	public String getId() {
@@ -148,6 +150,13 @@ public class CheckInfo implements java.io.Serializable{
 	}
 	public void setSgqy(String sgqy) {
 		this.sgqy = sgqy;
+	}
+	
+	public String getGx() {
+		return gx;
+	}
+	public void setGx(String gx) {
+		this.gx = gx;
 	}
 	
 	
