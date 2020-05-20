@@ -18,6 +18,8 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.jl.util.DateHelper;
+
 public class FileHelper {
 	/**
 	 * 读取文本文件内容

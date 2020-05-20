@@ -279,7 +279,7 @@ public class DateHelper
 	{
 		String yearMonth = "197101";
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
-//		SimpleDateFormat formatMM = new SimpleDateFormat("MM");
+		SimpleDateFormat formatMM = new SimpleDateFormat("MM");
 		try
 		{
 			Date startDate = format.parse(currentMonth);
@@ -408,7 +408,7 @@ public class DateHelper
 	
 	public static Date  getFirstDateOfMonth(Date date)
 	{
-//		DateFormat format=  new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat format=  new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.set(Calendar.DAY_OF_MONTH, 1);
@@ -451,7 +451,7 @@ public class DateHelper
 	 */
 	public static int getWeekOfMonth(Date date)
 	{
-//		DateFormat format=  new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat format=  new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		Date firstDateOfMonth=getFirstDateOfMonth(date);

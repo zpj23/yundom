@@ -6,11 +6,14 @@ import com.baidu.ueditor.define.State;
 import com.baidu.ueditor.hunter.FileManager;
 import com.baidu.ueditor.hunter.ImageHunter;
 import com.baidu.ueditor.upload.Uploader;
+import com.jl.util.DBManager;
+import com.jl.util.DateHelper;
+
+import java.util.Map;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Date;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONException;
@@ -31,7 +34,7 @@ public class ActionEnter
 //  @Autowired
 //  private UploadfileHibernate uploadfileDao;
   
-//  private DBManager DbaObj;
+  private DBManager DbaObj;
     
   public ActionEnter(HttpServletRequest request, String rootPath)
   {
@@ -95,35 +98,35 @@ public class ActionEnter
       state = new Uploader(this.request, conf).doExec();
       //插入数据库
       
-//      try {
-//    	  JSONObject a = new JSONObject(state.toString());    	  
-//    	  String tableid = request.getParameter("fileid");  //关联表主键
-    	  //保存数据到数据库    	 
-//    	  DbaObj = new DBManager();    	 
-//    	  if(DbaObj.OpenConnection()){    		 
-//    	  String Sql = "insert into sys_uploadfile (FILE_NAME,ORIGINAL_NAME,FILE_TYPE,FILE_URL,FILE_SIZE,UPLOAD_TIME,TABLE_UUID) values (?,?,?,?,?,?,?)";
-//    	  PreparedStatement prestmt = null;
-//    	  prestmt = DbaObj.Conn.prepareStatement(Sql);
-//          prestmt.setString(1, a.get("title").toString());
-//          prestmt.setString(2, a.get("original").toString());
-//          prestmt.setString(3, a.get("type").toString().substring(1));//去除"."
-//          prestmt.setString(4, a.get("url").toString().substring(1));
-//          prestmt.setInt(5, Integer.parseInt(a.get("size").toString()));
-//          prestmt.setString(6,DateHelper.getToday("yyyy-MM-dd HH:mm:ss"));//DbaObj.GetDate()
-//          prestmt.setString(7, tableid);
-//          //prestmt.setInt(8, index);
-//          DbaObj.Conn.setAutoCommit(false);
-//          prestmt.execute();
-//          DbaObj.Conn.commit();
-//          prestmt.close();
-//    	  }
+      try {
+    	  JSONObject a = new JSONObject(state.toString());    	  
+    	  String tableid = request.getParameter("fileid");  //关联表主键
+//    	  保存数据到数据库    	 
+    	  DbaObj = new DBManager();    	 
+    	  if(DbaObj.OpenConnection()){    		 
+    	  String Sql = "insert into sys_uploadfile (FILE_NAME,ORIGINAL_NAME,FILE_TYPE,FILE_URL,FILE_SIZE,UPLOAD_TIME,TABLE_UUID) values (?,?,?,?,?,?,?)";
+    	  PreparedStatement prestmt = null;
+    	  prestmt = DbaObj.Conn.prepareStatement(Sql);
+          prestmt.setString(1, a.get("title").toString());
+          prestmt.setString(2, a.get("original").toString());
+          prestmt.setString(3, a.get("type").toString().substring(1));//去除"."
+          prestmt.setString(4, a.get("url").toString().substring(1));
+          prestmt.setInt(5, Integer.parseInt(a.get("size").toString()));
+          prestmt.setString(6,DateHelper.getToday("yyyy-MM-dd HH:mm:ss"));//DbaObj.GetDate()
+          prestmt.setString(7, tableid);
+          //prestmt.setInt(8, index);
+          DbaObj.Conn.setAutoCommit(false);
+          prestmt.execute();
+          DbaObj.Conn.commit();
+          prestmt.close();
+    	  }
     	 
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//         finally {
-//	        DbaObj.CloseConnection();
-//	      }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+         finally {
+	        DbaObj.CloseConnection();
+	      }
       
       break;
     case 5:
