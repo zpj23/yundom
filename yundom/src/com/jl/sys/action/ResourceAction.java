@@ -42,6 +42,13 @@ public class ResourceAction extends IAction{
 	}
 	/****************************************************************************************/
 		
+	/**
+	 * 显示item列表
+	 * @Title showResourceItemJson
+	 * @throws IOException
+	 * @author zpj
+	 * @time 2020年5月23日 下午3:39:31
+	 */
 	@Action(value="resourceAction_showResourceItemJson",results={
 			@Result(name="success",type="json", params={"root","htmlValue"})
 	})
@@ -57,10 +64,17 @@ public class ResourceAction extends IAction{
 	 * 数据资源1级列表
 	 */
 	@Action(value="resourceAction_listLevel1",results={
-			@Result(name="success",location="sys/resource/resourceList1.jsp"),
+			@Result(name="success",location="sys/resource/list.jsp"),
 			@Result(name="error",location="/error.jsp")
 	})
 	public String toResourceList_(){
+			return "success";
+	}
+	@Action(value="resourceAction_toList",results={
+			@Result(name="success",location="sys/resource/resourceList1.jsp"),
+			@Result(name="error",location="/error.jsp")
+	})
+	public String listLevel2(){
 		try {
 			//数据字典类别树
 			String typeJson = resourceService.findTypeJson();

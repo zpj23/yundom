@@ -5,19 +5,18 @@ import java.util.List;
 public class MyPage {
 
 	
-	public List<?> data;
+	public List<?> rows;
 	
 	public int total;
 
 	
-	
 
-	public List<?> getData() {
-		return data;
+	public List<?> getRows() {
+		return rows;
 	}
 
-	public void setData(List<?> data) {
-		this.data = data;
+	public void setRows(List<?> rows) {
+		this.rows = rows;
 	}
 
 	public int getTotal() {
@@ -32,7 +31,7 @@ public class MyPage {
 	}
 	public MyPage(List<?> data, int total) {
 		super();
-		this.data = data;
+		this.rows = data;
 		this.total = total;
 	}
 	

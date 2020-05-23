@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,8 @@ import org.hibernate.criterion.Example;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.jl.util.MyPage;
 
 
 
@@ -935,5 +938,125 @@ public List findMapObjBySql(final String sql){
 		}
 		return list;
 	}
+	public List<T> findBySqlT(String sql, Class<T> t) {
+		List<T> list = null;
+		Session session = null;
+		try {
+			session = sessionFactory.getCurrentSession();
+			Query query = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(t);
+			list = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+		if (list != null && list.size() > 0) {
+			return list;
+		} else {
+			return null;
+		}
+	}	
+	
+	
+	/**
+	 * 单表查询分页
+	 * @Title findPageDateSqlT
+	 * @param tablename 表名
+	 * @param columns  需要查询的字段名，多个用逗号分割
+	 * @param conditions   条件
+	 * @param px
+	 * @param page
+	 * @param pagesize
+	 * @param t
+	 * @return
+	 * @author zpj
+	 * @time 2018年3月7日 下午1:09:43
+	 */
 
+	public MyPage findPageDateSqlT(String tablename, String columns,Map<String, Object> conditions, Map<String, Object> px,
+			Integer page, Integer pagesize, Class<T> t) {
+		StringBuffer sql = new StringBuffer(500);
+		sql.append("select ");
+		if(null!=columns&&!columns.equalsIgnoreCase("")){
+			String[] cols=columns.split(",");
+			for(int n=0;n<cols.length;n++){
+				if(n>0){
+					sql.append(",");
+				}
+				sql.append(cols[n]);
+			}
+		}else{
+			sql.append(" * ");
+		}
+		
+		sql.append(" from ").append(tablename).append(" where 1=1 ");
+		String key;
+		String value;
+		if (conditions != null) {
+			for (Map.Entry<String, Object> entry : conditions.entrySet()) {
+				key = entry.getKey().toString();
+				if (entry.getValue() != null && !"".equals(entry.getValue().toString())) {
+					value = entry.getValue().toString();
+					if (key.endsWith("-eq")) {
+						sql.append(" and ").append(key.replace("-eq", "")).append(" = '").append(value).append("' ");
+					} else if (key.endsWith("-like")) {
+						sql.append(" and ").append(key.replace("-like", "")).append(" like '%").append(value)
+								.append("%' ");
+					} else if (key.endsWith("-begin")) {
+						sql.append(" and ").append(key.replace("-begin", "")).append(" > '").append(value).append("' ");
+					} else if (key.endsWith("-end")) {
+						sql.append(" and ").append(key.replace("-end", "")).append(" < '").append(value).append("' ");
+					}else if(key.endsWith("-or")){
+						//或者的值，用大写OR拼成一个字符串，这边会进行分割
+						String[] valus=  value.split("OR");
+						String tempkey=key.replace("-or", "");
+						sql.append(" and ( ");
+						for(int m=0;m<valus.length;m++){
+							if(m>0){
+								sql.append(" or ");
+							}
+							if(valus[m].equalsIgnoreCase("null")){
+								sql.append(tempkey).append(" is null ");
+							}else{
+								sql.append(tempkey).append(" = '").append(valus[m]).append("' ");
+							}
+						}
+						sql.append(" ) "); 
+					}else if(key.endsWith("-self")){
+						//自定义的条件， 单条件传入
+						sql.append(" and "+value);						
+					}else{
+						sql.append(" and ").append(key).append(" = '").append(value).append("' ");
+					}
+				}
+			}
+		}
+		// 查询出所有符合条件的数量值
+		int num = 0;
+		String sqlcount = sql.toString().replace("*", " count(*) as num ,1 ");
+		List<Object[]> lt = findBySql(sqlcount);
+		if (lt != null) {
+			num=Integer.parseInt(((BigInteger) lt.get(0)[0]).toString());
+		}
+		int s=px.size();
+		// 结果集
+		if(s>0){
+			sql.append(" order by ");
+			int jsq=0;
+			for (Map.Entry<String, Object> entry : px.entrySet()) {
+				if(jsq>0){
+					sql.append(",");
+				}
+				sql.append(entry.getKey().toString()).append(" ").append(value = entry.getValue().toString()).append(" ");
+				jsq++;
+			}
+		}
+		
+//		sql.append("  offset " + (page - 1) * pagesize + " rows fetch next " + pagesize + " rows only");
+		sql.append("  limit " + (page - 1) * pagesize + " , " + pagesize + " ");
+		List<T> list = findBySqlT(sql.toString(), t);
+		if(null==list||list.size()==0){
+			list=new ArrayList();
+		}
+		return new MyPage(list, num);
+	}
 }
