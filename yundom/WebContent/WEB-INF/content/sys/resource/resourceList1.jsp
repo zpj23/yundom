@@ -40,16 +40,19 @@
 	});
 	
 	function addType(){
-	   common.openWindow('新增类别', 'resourceAction_toAddRescource', 550, 160);	
+// 	   common.openWindow('新增类别', 'resourceAction_toAddRescource', 550, 160);	
+		parent.openWindow('新增类别', 'resourceAction_toAddRescource', 550, 160);
 	}
 	
 	function modifyType(){
 	    var zTree = $.fn.zTree.getZTreeObj("treeDiv");
 		var treeNode = zTree.getSelectedNodes()[0];
 		if(treeNode == undefined){
-			common.alert_remind('请选择要修改的记录!');
+// 			common.alert_remind('请选择要修改的记录!');
+			layer.msg('请选择要修改的记录!',{icon: 5,time:1000});
 		}else{
-	      common.openWindow('编辑类别', 'resourceAction_toAddRescource?id='+treeNode.id+'&pid='+treeNode.pId, 550, 160);	
+// 	      common.openWindow('编辑类别', 'resourceAction_toAddRescource?id='+treeNode.id+'&pid='+treeNode.pId, 550, 160);	
+	      parent.openWindow('编辑类别', 'resourceAction_toAddRescource?id='+treeNode.id+'&pid='+treeNode.pId, 550, 160);
 		}
 	}
 	
@@ -243,7 +246,8 @@
 			}] ],
 			onDblClickRow : function(row) {
 				if (editRow) {
-					common.alert_remind('您没有结束之前编辑的数据，请先保存或取消编辑!');
+// 					common.alert_remind('您没有结束之前编辑的数据，请先保存或取消编辑!');
+					parent.layer.msg('您没有结束之前编辑的数据，请先保存或取消编辑!',{icon: 5,time:1000});
 				} else {
 					treegrid.treegrid('beginEdit', row.id);
 					editRow = row;
@@ -259,17 +263,20 @@
 						dataType : "json",						
 						success : function(r) {
 							if (r.result) {editRow = undefined;								
-							common.alert_info('保存成功');
+// 							common.alert_info('保存成功');
+							parent.layer.msg('保存成功!',{icon: 1,time:1000});
 								//treegrid.treegrid('reload');
 								//parent.tree.tree('reload');
 								editRow = undefined;
 							} else {editRow = undefined;	
-							common.alert_error('保存失败,请确认编码是否重复!');
+// 							common.alert_error('保存失败,请确认编码是否重复!');
+							parent.layer.msg('保存失败,请确认编码是否重复!',{icon: 5,time:1000});
 							}
 						}
 					});
 				} else {
-					common.alert_error('保存失败，上级数据字典项不可以是自己!');
+					parent.layer.msg('保存失败，上级数据字典项不可以是自己!',{icon: 5,time:1000});
+// 					common.alert_error('保存失败，上级数据字典项不可以是自己!');
 				}
 			},
 			onContextMenu : function(e, row) {
@@ -346,7 +353,8 @@
 
 	function edit() {
 		if (editRow) {
-			common.alert_remind('您没有结束之前编辑的数据，请先保存或取消编辑!');			
+// 			common.alert_remind('您没有结束之前编辑的数据，请先保存或取消编辑!');		
+			parent.layer.msg('您没有结束之前编辑的数据，请先保存或取消编辑!',{icon: 5,time:1000});
 		} else {
 			var node = treegrid.treegrid('getSelected');
 			if (node && node.id) {
@@ -357,7 +365,8 @@
 	}
 	function append() {
 		if (editRow) {
-			common.alert_remind('您没有结束之前编辑的数据，请先保存或取消编辑!');
+			parent.layer.msg('您没有结束之前编辑的数据，请先保存或取消编辑!',{icon: 5,time:1000});
+// 			common.alert_remind('您没有结束之前编辑的数据，请先保存或取消编辑!');
 		} else {
 			var node = treegrid.treegrid('getSelected');
 			var data = [ {				
@@ -395,7 +404,8 @@
 		var node = treegrid.treegrid('getSelected');
 		if (node) {
 			if (node.id == '0') {
-				common.alert_remind('不能删除根节点!');
+// 				common.alert_remind('不能删除根节点!');
+				parent.layer.msg('不能删除根节点!',{icon: 5,time:1000});
 				return;
 			}
 			$.messager.confirm('询问', '您确定要删除【' + node.itemName + '】数据字典项？', function(b) {
@@ -412,11 +422,14 @@
 								 //treegrid.treegrid('reload');
 								// parent.tree.tree('reload');
 								treegrid.treegrid('remove', node.id);								
-								common.alert_info('删除成功');
+// 								common.alert_info('删除成功');
+								parent.layer.msg('删除成功!',{icon: 1,time:1000});
 							}else if (r==2) {
-								common.alert_remind('该数据字典项存在下级数据,不能删除');
+// 								common.alert_remind('该数据字典项存在下级数据,不能删除');
+								parent.layer.msg('该数据字典项存在下级数据,不能删除',{icon:5,time:1000});
 							} else {
-								common.alert_error('删除失败!');
+// 								common.alert_error('删除失败!');
+								parent.layer.msg('删除失败',{icon:5,time:1000});
 							}
 						}
 					});
@@ -440,9 +453,11 @@
 						// parent.tree.tree('reload');
 						treegrid.treegrid('remove', id);
 					}else if (r==2) {
-						common.alert_remind('该数据字典项存在下级数据,不能删除');
+// 						common.alert_remind('该数据字典项存在下级数据,不能删除');
+						parent.layer.msg('该数据字典项存在下级数据,不能删除',{icon:5,time:1000});
 					} else {
-						common.alert_error('删除失败!');
+// 						common.alert_error('删除失败!');
+						parent.layer.msg('删除失败',{icon:5,time:1000});
 					}
 				}
 			});				
@@ -457,7 +472,7 @@
 	
 	
 	function isLessThanIe8 () {/* 判断浏览器是否是IE并且版本小于8 */
-		return ($.browser.msie && $.browser.version < 8);
+		return false;
 	};
 </script>
 </head>
@@ -477,12 +492,12 @@
 								</div>
 						</div>  
 					</div>   
-					<div data-options="region:'center',border:true" style="padding-top:0px;overflow: scroll;height: 580px" class="pd3">     
-						<ul id="treeDiv" class="ztree"></ul>
+					<div data-options="region:'center',border:true" style="padding-top:0px;overflow: scroll;height: 100%" class="pd3">     
+						<ul id="treeDiv" class="ztree" style="height:100%;"></ul>
 					</div>
 			
             </div>   
-            <div data-options="region:'center',border:false" style="padding-top:0px;background-color:#E6EEF8; padding-left: 0px;padding-bottom: 48px" class="pd3">
+            <div data-options="region:'center',border:false" style="padding-top:0px;background-color:#E6EEF8; padding-left: 0px;padding-bottom: 48px;height: 100%" class="pd3">
             	<div data-options="region:'north',split:false,border:false">
 	            	 <div class="panel " style="background-color:#E6EEF8;padding-top: 3px;padding-bottom: 3px;">
 								<div class="panel-header">
