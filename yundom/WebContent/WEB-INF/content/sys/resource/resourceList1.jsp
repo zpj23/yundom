@@ -49,7 +49,7 @@
 		var treeNode = zTree.getSelectedNodes()[0];
 		if(treeNode == undefined){
 // 			common.alert_remind('请选择要修改的记录!');
-			layer.msg('请选择要修改的记录!',{icon: 5,time:1000});
+			parent.layer.msg('请选择要修改的记录!',{icon: 5,time:1000});
 		}else{
 // 	      common.openWindow('编辑类别', 'resourceAction_toAddRescource?id='+treeNode.id+'&pid='+treeNode.pId, 550, 160);	
 	      parent.openWindow('编辑类别', 'resourceAction_toAddRescource?id='+treeNode.id+'&pid='+treeNode.pId, 550, 160);
@@ -70,11 +70,14 @@
 						success : function(r) {
 							if (r==1) {
 								zTree.removeNode(treeNode);
-								common.alert_info('删除成功');
+// 								common.alert_info('删除成功');
+								parent.layer.msg('删除成功!',{icon: 1,time:1000});
 							}else if(r==2){
-								common.alert_remind('该类型存在下级节点,不能删除');
+// 								common.alert_remind('该类型存在下级节点,不能删除');
+								parent.layer.msg('该类型存在下级节点,不能删除!',{icon:5,time:1000});
 							}else {
-								common.alert_error('删除失败!');
+// 								common.alert_error('删除失败!');
+								parent.layer.msg('删除失败!',{icon:5,time:1000});
 							}
 						}
 					});				
@@ -394,7 +397,7 @@
 						treegrid.treegrid('beginEdit', data[0].id);
 						editRow = data[0];
 					} else {
-						common.alert_error('新增失败!');
+						parent.layer.msg('新增失败',{icon:5,time:1000});
 					}
 				}
 			}); 

@@ -559,8 +559,11 @@ public class ResourceServiceImpl  implements ResourceService{
 //	
 //	
 	
-	public List<SysResourceItem> getItemByType(String code){
-		return sriDao.findBySqlT(" select * from SYS_RESOURCE_ITEM where typeid='"+code+"'", SysResourceItem.class);
+	public List<SysResourceItem> getItemByTypeId(String typeid){
+		return sriDao.findBySqlT(" select * from SYS_RESOURCE_ITEM where typeid='"+typeid+"'", SysResourceItem.class);
+	}
+	public List<SysResourceItem> getItemByTypeCode(String code){
+		return sriDao.findBySqlT(" select ite.* from SYS_RESOURCE_ITEM ite inner join SYS_RESOURCE_TYPE typ on ite.typeid=typ.id  where typ.type_code='"+code+"'", SysResourceItem.class);
 	}
 	
 	@Override
@@ -577,13 +580,13 @@ public class ResourceServiceImpl  implements ResourceService{
 			SysResourceItem iitem = sriDao.get2(Integer.parseInt(pid));
 			code = iitem.getItemCode();
 		}
-		List<SysResourceItem> list = this.getItemByType(code);
+		List<SysResourceItem> list = this.getItemByTypeCode(code);
 		if(list!=null){		
 		StringBuffer str = new StringBuffer();	
 		str.append("[");
 		for(int i=0;i<list.size();i++){				
 			String state = "open";
-			List<SysResourceItem> list2 = this.getItemByType(list.get(i).getItemCode());
+			List<SysResourceItem> list2 = this.getItemByTypeCode(list.get(i).getItemCode());
 			if(list2!=null&&list2.size()>0){
 				state = "closed";
 			}
@@ -695,13 +698,13 @@ public class ResourceServiceImpl  implements ResourceService{
 			SysResourceItem iitem = sriDao.get2(Integer.parseInt(pid));
 			code = iitem.getItemCode();
 		}
-		List<SysResourceItem> list = this.getItemByType(code);
+		List<SysResourceItem> list = this.getItemByTypeCode(code);
 		if(list!=null){		
 		StringBuffer str = new StringBuffer();	
 		str.append("[");
 		for(int i=0;i<list.size();i++){				
 			String state = "open";
-			List<SysResourceItem> list2 = this.getItemByType(list.get(i).getItemCode());
+			List<SysResourceItem> list2 = this.getItemByTypeCode(list.get(i).getItemCode());
 			if(list2!=null&&list2.size()>0){
 				state = "closed";
 			}

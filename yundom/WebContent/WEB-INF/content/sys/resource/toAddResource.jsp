@@ -8,14 +8,18 @@
 <title></title>
 <script type="text/javascript">
 	$().ready(function() {
-		 var pid = ${pid};
+		 var pid = '${pid}';
 		if (pid != null) {
 			$("#level").val(2);
 			$("#parentTypeid").val(pid);
 			$("#level2tr").css("display", "");
 		}
 	});
-	
+	function closethisWin(){
+		var index = parent.layer.getFrameIndex(window.name);
+		parent.reflushTree();
+		parent.layer.close(index);
+	}
 	
 </script>
 </head>
@@ -65,7 +69,7 @@
 		<div class="dialog-button" style="text-align:center;padding:5px;background-color: white;border: none">
 				 <a class="l-btn-left l-btn-icon-left easyui-linkbutton l-btn  " onclick="saveType();">
 				 <span class=" ">保存</span><span class="l-btn-icon icon-save" style=""> </span></a>
-				 <a class="l-btn-left l-btn-icon-left easyui-linkbutton l-btn  " onclick="common.closeWindow(null);">
+				 <a class="l-btn-left l-btn-icon-left easyui-linkbutton l-btn  " onclick="closethisWin();">
 				 <span class=" ">关闭</span><span class="l-btn-icon icon-cross-octagon"> </span></a>		 
 		</div>
     </div>
@@ -96,7 +100,8 @@
 							async : false,
 							success: function(data) {
 							if(data==1){
-								common.alert_error('该数据编码已存在，请重新填写!');
+// 								common.alert_error('该数据编码已存在，请重新填写!');
+								parent.layer.msg('该数据编码已存在，请重新填写!',{icon: 5,time:1000});
 								result = false;
 							}else{
 								result = $("#form_resource").form('validate');
@@ -110,7 +115,9 @@
 				},
 			    success: function(){
 				//刷新父页面，关闭window
-				common.alert_success('保存成功','resourceAction_listLevel1');
+// 				common.alert_success('保存成功','resourceAction_listLevel1');
+				 layer.msg('保存成功!',{icon: 1,time:1000});
+				 closethisWin();
 			 }
 			});                
 		}

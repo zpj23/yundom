@@ -42,64 +42,72 @@
 */
 /*管理员-增加*/
 function admin_add(title,url,w,h){
-	list_iframe.contentWindow.append();
-	//layer_show(title,url,w,h);
+	list_iframe.contentWindow.addType();
 }
-/*管理员-编辑*/
 function admin_edit(title,url,w,h){
+	list_iframe.contentWindow.modifyType();
+}
+function admin_del(title,url,w,h){
+	list_iframe.contentWindow.delType();
+}
+// function closeWindow(){
+// 	var index = layer.getFrameIndex(window.name);  
+//     layer.close(index);//关闭当前页  
+// }
+/*管理员-编辑*/
+function openWindow(title,url,w,h){
 	layer_show(title,url,w,h);
 }
 function searchInfo(){
-	list_iframe.contentWindow.load($('#datemin').val(),$('#datemax').val(),$('#departmentname').val());
+	reflushTree();
 }
 function tolist(){
-// 	form1.action="jlUserInfoAction_toList";
-// 	form1.submit();
-	list_iframe.contentWindow.load($('#datemin').val(),$('#datemax').val(),$('#departmentname').val());
+	reflushTree();
+}
+function reflushTree(){
+	list_iframe.src='resourceAction_toList';
 }
 
-function toShowPic(str){
-	list_iframe.contentWindow.toShowPic(str);
-}
-function removeDep(id){
-	layer.confirm('确认要删除该菜单吗？',function(index){
-		//此处请求后台程序，下方是成功后的前台处理……
+// function removeDep(id){
+// 	layer.confirm('确认要删除该菜单吗？',function(index){
+// 		//此处请求后台程序，下方是成功后的前台处理……
 		
-		$.ajax({
-			   type: "POST",
-			   url: "jlMenuInfoAction_doRemove",
-			   async:false,
-			   data: "id="+id,
-			   success: function(data){
-				   if(data==1){
-					   layer.msg('已删除!',{icon: 6,time:1000});
-					   list_iframe.contentWindow.removeJd();
-				   }else{
-					   layer.msg('删除失败!',{icon: 5,time:1000});
-				   }
-			   }
-			});
-	});
-}
+// 		$.ajax({
+// 			   type: "POST",
+// 			   url: "jlMenuInfoAction_doRemove",
+// 			   async:false,
+// 			   data: "id="+id,
+// 			   success: function(data){
+// 				   if(data==1){
+// 					   layer.msg('已删除!',{icon: 6,time:1000});
+// 					   list_iframe.contentWindow.removeJd();
+// 				   }else{
+// 					   layer.msg('删除失败!',{icon: 5,time:1000});
+// 				   }
+// 			   }
+// 			});
+// 	});
+// }
 </script>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 字典管理<a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
-<!-- <form action="" name="form1" method="post"  id="form1"> -->
-<!-- 	<div class="text-c" > -->
-<!-- 		<input type="text" class="input-text" style="width:250px" placeholder="输入菜单名称" id="menuname" name="menuname"> -->
-<!-- 		<button type="button"  class="btn btn-success" onclick="searchInfo();" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜菜单</button> -->
-<!-- 	</div> -->
-<!-- 	<div class="cl pd-5 bg-1 bk-gray mt-20"> -->
-<!-- 	 <span class="l"> -->
-<!-- 	 	<a style="display:none;" href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>  -->
-<!-- 	 	<a href="javascript:;" style="color: white" onclick="admin_add('添加菜单','jlMenuInfoAction_toAdd','800','650')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加菜单</a> -->
-<!-- 	 </span> <span class="r">共有数据：<strong>${count}</strong> 条</span> -->
-<!-- 	</div> -->
-<!-- 	</form> -->
+<form action="" name="form1" method="post"  id="form1">
+	<div class="text-c" >
+		<input type="text" class="input-text" style="width:250px" placeholder="输入菜单名称" id="menuname" name="menuname">
+		<button type="button"  class="btn btn-success" onclick="searchInfo();" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜字典</button>
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	 <span class="l">
+	 	<a href="javascript:;" style="color: white" onclick="admin_add('添加','','800','650')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加字典</a>
+	 	<a href="javascript:;" style="color: white" onclick="admin_edit('修改','','800','650')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe60c;</i> 编辑字典</a>
+	 	<a href="javascript:;" style="color: white" onclick="admin_del('删除','','800','650')" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 删除字典</a>
+	 </span> <!-- <span class="r">共有数据：<strong>${count}</strong> 条</span> -->
+	</div>
+	</form>
 		
-<iframe id="list_iframe" name="list_frame" src="resourceAction_toList" width="100%" height="75%" frameborder="0"></iframe>
+<iframe id="list_iframe" name="list_frame" src="resourceAction_toList" width="100%" height="76%" frameborder="0"></iframe>
 </div>
 
 </body>
