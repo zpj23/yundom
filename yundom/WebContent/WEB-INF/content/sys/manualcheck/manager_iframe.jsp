@@ -207,22 +207,6 @@ $(document).ready(function(){
 
 
 
-
-
-// function load(datemin,datemax,username,departmentid,sgxm,sgqy,workcontent,shenhe){
-// 	datagrid.datagrid("load", { 
-// 		datemin:datemin,
-// 		datemax:datemax,
-// 		username:username,
-// 		departmentid:departmentid,
-// 		sgxm:sgxm,
-// 		sgqy:sgqy,
-// 		workcontent:workcontent,
-// 		shenhe:shenhe
-// 	});
-// }
-
-
 function tempSaveData(){
 	datagrid.datagrid("endEdit", editRow);
 	var arr = datagrid.datagrid("getRows");

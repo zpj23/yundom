@@ -26,7 +26,7 @@ public class UserInfo implements java.io.Serializable{
 	private String departmentcode;//部门编码;
 	private String departmentname;//部门名称;
 //	private int departmentid;//部门名称;
-	private String address;//地址;
+//	private String address;//地址;
 	private String telephone;//电话;
 	private Date createtime;//创建时间
 	private int createuserid;//创建人id
@@ -112,21 +112,6 @@ public class UserInfo implements java.io.Serializable{
 		this.departmentcode = departmentcode;
 	}
 
-	@Column(name = "departmentname", length = 100)
-	public String getDepartmentname() {
-		return departmentname;
-	}
-	
-	public void setDepartmentname(String departmentname) {
-		this.departmentname = departmentname;
-	}
-	@Column(name = "address", length = 1000)
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
 	@Column(name = "telephone", length = 20)
 	public String getTelephone() {
 		return telephone;
@@ -222,6 +207,18 @@ public class UserInfo implements java.io.Serializable{
 
 	public void setOpenid(String openid) {
 		this.openid = openid;
+	}
+
+
+
+	public String getDepartmentname() {
+		return departmentname;
+	}
+
+
+
+	public void setDepartmentname(String departmentname) {
+		this.departmentname = departmentname;
 	}
 
 

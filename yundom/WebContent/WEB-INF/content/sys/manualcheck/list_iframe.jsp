@@ -173,7 +173,7 @@ function getNowFormatDate() {
 }
 /****编辑****/
 function edit(id){
-	parent.admin_add('编辑','jlManualCheckInfoAction_toAdd?id='+id,'800','650');
+	parent.admin_add('编辑','jlManualCheckInfoAction_toAdd?id='+id,'800','750');
 }
 /*****删除*****/
 function del(id){

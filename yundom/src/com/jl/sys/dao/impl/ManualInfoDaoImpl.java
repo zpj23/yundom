@@ -1,5 +1,6 @@
 package com.jl.sys.dao.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.jl.sys.dao.PayrollDao;
 import com.jl.sys.pojo.CheckInfo;
 import com.jl.sys.pojo.PayrollInfo;
 import com.jl.sys.pojo.UserInfo;
+import com.jl.util.Role;
 @Repository
 public class ManualInfoDaoImpl extends BaseDao<CheckInfo> implements ManualInfoDao {
 	
@@ -27,40 +29,6 @@ public class ManualInfoDaoImpl extends BaseDao<CheckInfo> implements ManualInfoD
 				this.save(cInfo);
 			}
 	}
-//	public double findListSum(UserInfo user,int page,int rows,Map<String,String> param){
-//		StringBuffer sql = new StringBuffer();
-//		sql.append(" select workduringtime,overtime from jl_check_info a where 1=1  ");
-//		if(null!=param.get("datemin")&&!"".equalsIgnoreCase(param.get("datemin").toString())){
-//			sql.append(" and workdate >= ").append("'"+param.get("datemin")+"'");
-//		}
-//		if(null!=param.get("datemax")&&!"".equalsIgnoreCase(param.get("datemax").toString())){
-//			sql.append(" and workdate <= ").append("'"+param.get("datemax")+"'");
-//		}
-//		if(null!=param.get("username")&&!"".equalsIgnoreCase(param.get("username").toString())){
-//			sql.append(" and  staffname like ").append("'%"+param.get("username")+"%'  ");
-//		}
-//		if(null!=param.get("address")&&!"".equalsIgnoreCase(param.get("address").toString())){
-//			sql.append(" and  address like ").append("'%"+param.get("address")+"%'  ");
-//		}
-//		if(null!=param.get("workcontent")&&!"".equalsIgnoreCase(param.get("workcontent").toString())){
-//			sql.append(" and  workcontent like ").append("'%"+param.get("workcontent")+"%'  ");
-//		}
-//		if(null!=param.get("departmentid")&&!"".equalsIgnoreCase(param.get("departmentid").toString())){
-//			sql.append(" and departmentcode = ").append("'"+param.get("departmentid")+"'");
-//		}
-//		if(null!=param.get("shenhe")&&!"".equalsIgnoreCase(param.get("shenhe").toString())){
-//			sql.append(" and  shenhe =").append("'"+param.get("shenhe")+"'  ");
-//		}
-//		//判断是否是管理员用户
-//		if(!user.getIsAdmin().equalsIgnoreCase("1")){
-//			//不是管理员
-//			sql.append(" and  createuserid="+user.getId());
-//		}
-//		List<Object[]> list=this.findBySql2("select SUM(workduringtime)+sum(overtime) as zs from ( "+sql+" ) t1 ");
-//		
-//		double zs=(Double)list.get(0)[0];
-//		return zs;
-//	}
 	
 	public List findThreeSum(UserInfo user,Map<String,String> param,int page,int rows){
 		StringBuffer sql = new StringBuffer();
@@ -87,17 +55,31 @@ public class ManualInfoDaoImpl extends BaseDao<CheckInfo> implements ManualInfoD
 		if(null!=param.get("departmentid")&&!"".equalsIgnoreCase(param.get("departmentid").toString())){
 			sql.append(" and a.departmentcode = ").append("'"+param.get("departmentid")+"'");
 		}
-		if(null!=param.get("shenhe")&&!"".equalsIgnoreCase(param.get("shenhe").toString())){
-			sql.append(" and  a.shenhe =").append("'"+param.get("shenhe")+"'  ");
-		}
+		
 		if(null!=param.get("lrrname")&&!"".equalsIgnoreCase(param.get("lrrname").toString())){
 			sql.append(" and  u.username like ").append("'"+param.get("lrrname")+"%'  ");
 		}
-		//判断是否是管理员用户
-		if(!user.getIsAdmin().equalsIgnoreCase("1")){
-			//不是管理员
-			sql.append(" and  a.createuserid="+user.getId());
+		
+		if(null!=param.get("shenhe")&&!"".equalsIgnoreCase(param.get("shenhe").toString())){
+			sql.append(" and  a.shenhe =").append("'"+param.get("shenhe")+"'  ");
 		}
+		
+		if(user.getIsAdmin().equalsIgnoreCase(Role.ZUZHANG.toString())){
+			//组长
+			sql.append(" and  a.createuserid="+user.getId());
+		}else if(user.getIsAdmin().equalsIgnoreCase(Role.CHEJIANZHUREN.toString())){
+			//车间主任 
+		}else if(user.getIsAdmin().equalsIgnoreCase(Role.RENSHI.toString())){
+			//人事
+		}
+		
+		//判断是否是管理员用户
+//		if(!user.getIsAdmin().equalsIgnoreCase("1")){
+//			//不是管理员
+//			sql.append(" and  a.createuserid="+user.getId());
+//		}
+		
+		
 		List list=this.findMapObjBySql(sql.toString(), null, 1, 2);
 		return list;
 	}

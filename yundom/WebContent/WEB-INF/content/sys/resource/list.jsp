@@ -68,34 +68,15 @@ function reflushTree(){
 	list_iframe.src='resourceAction_toList';
 }
 
-// function removeDep(id){
-// 	layer.confirm('确认要删除该菜单吗？',function(index){
-// 		//此处请求后台程序，下方是成功后的前台处理……
-		
-// 		$.ajax({
-// 			   type: "POST",
-// 			   url: "jlMenuInfoAction_doRemove",
-// 			   async:false,
-// 			   data: "id="+id,
-// 			   success: function(data){
-// 				   if(data==1){
-// 					   layer.msg('已删除!',{icon: 6,time:1000});
-// 					   list_iframe.contentWindow.removeJd();
-// 				   }else{
-// 					   layer.msg('删除失败!',{icon: 5,time:1000});
-// 				   }
-// 			   }
-// 			});
-// 	});
-// }
+
 </script>
 </head>
-<body>
+<body style="overflow:hidden;">
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 字典管理<a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
-<div class="pd-20">
-<form action="" name="form1" method="post"  id="form1">
+<div  style="padding:20px;width: auto;height:auto;overflow:hidden; ">
+	<form action="" name="form1" method="post"  id="form1">
 	<div class="text-c" >
-		<input type="text" class="input-text" style="width:250px" placeholder="输入菜单名称" id="menuname" name="menuname">
+		<input type="text" class="input-text" style="width:250px" placeholder="输入字典名称" id="menuname" name="menuname">
 		<button type="button"  class="btn btn-success" onclick="searchInfo();" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜字典</button>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20">
@@ -106,8 +87,7 @@ function reflushTree(){
 	 </span> <!-- <span class="r">共有数据：<strong>${count}</strong> 条</span> -->
 	</div>
 	</form>
-		
-<iframe id="list_iframe" name="list_frame" src="resourceAction_toList" width="100%" height="76%" frameborder="0"></iframe>
+	<iframe id="list_iframe" name="list_frame" src="resourceAction_toList" width="99%" height="80%" frameborder="0"></iframe>
 </div>
 
 </body>

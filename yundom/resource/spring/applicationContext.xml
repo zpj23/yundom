@@ -171,9 +171,11 @@ poxy-target-class="true"/>时，表示使用CGLib动态代理技术织入增强�
 <!-- 	    <property name="sessionFactory" ref="sessionFactory" /> -->
 <!-- 	</bean> -->
 	
-	
+	<bean class="com.jl.common.SpringContext" />
 	<!-- 日志记录 -->
 	<bean id="logpointService" class="com.jl.common.LogServiceImpl"></bean>
+	<!-- 字典 -->
+	<bean id="resourceTagService" class="com.jl.sys.service.impl.ResourceServiceImpl"></bean>
 	
 <!-- 	 spring-session -redis 配置 -->
 <!-- 	    默认0 Redis默认有16个库,默认连接的是 index=0 的那一个。这16个库互相之间是独立的。类似于同一MySQL服务器里面的多个数据库。 -->

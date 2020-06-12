@@ -87,6 +87,14 @@ function closethisWin(){
       <div class="col-4"> </div>
     </div>
     <div class="row cl">
+      <label class="form-label col-1"><span class="c-red">*</span>工序：</label>
+      <div class="formControls col-5"> <span class="select-box">
+		 <mf:selectCoder type="GX" no="${cinfo.gx}"  cssclass="select" name="cinfo.gx" id="gx" nullmsg="请选择工序！" datatype="*" headerKey="" headerValue="--请选择--"  onchange=""   ></mf:selectCoder>
+      	</span>
+      </div>
+      <div class="col-4"> </div>
+    </div>
+    <div class="row cl">
       <label class="form-label col-1"><span class="c-red">*</span>所属工地：</label>
       <div class="formControls col-5"> <span class="select-box">
       	<input type="hidden" id="departmentname" name="departmentname" value=""/>

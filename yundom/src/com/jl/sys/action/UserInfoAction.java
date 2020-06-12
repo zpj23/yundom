@@ -272,7 +272,7 @@ public class UserInfoAction extends IAction{
 		String datemin=request.getParameter("datemin");//开始时间
 		String datemax=request.getParameter("datemax");//结束时间
 		String username=request.getParameter("username");//用户名称
-		String departmentid=request.getParameter("departmentid");//部门id
+		String departmentid=request.getParameter("departmentcode");//部门id
 		String tpage=request.getParameter("page");
 		String trows=request.getParameter("rows");
 		if(null!=tpage&&!"".equalsIgnoreCase(tpage)){

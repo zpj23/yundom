@@ -33,6 +33,7 @@ import com.jl.sys.service.ManualInfoService;
 import com.jl.sys.service.UserInfoService;
 import com.jl.util.DateHelper;
 import com.jl.util.PingyinTool;
+import com.jl.util.Role;
 
 /**
  * @Description:微信考勤导入
@@ -93,7 +94,7 @@ public class ManualCheckInfoAction extends IAction{
 		return "success";
 	}
 	/**
-	 * 批量插入
+	 * 批量插入 后台批量保存功能
 	 * @Title doManageAdd
 	 * @author zpj
 	 * @time 2017-9-20 下午2:33:19
@@ -155,12 +156,19 @@ public class ManualCheckInfoAction extends IAction{
 				tmpci.setCreateuserid(user.getId());
 				tmpci.setSgxm(job.getString("sgxm"));
 				tmpci.setSgqy(job.getString("sgqy"));
-				if(user.getIsAdmin().equalsIgnoreCase("1")){
-					//管理员  审核状态改成已审核
-					tmpci.setShenhe("1");
-				}else{
-					//普通人 录入的状态是未审核
+				if(user.getIsAdmin().equalsIgnoreCase(Role.ZUZHANG.toString())){
+					//组长录入的状态是未审核
 					tmpci.setShenhe("0");
+				}else if(user.getIsAdmin().equalsIgnoreCase(Role.CHEJIANZHUREN.toString())){
+					//车间主任 审核状态改成已审核
+					tmpci.setShenhe("1");
+					tmpci.setShenheTime(new Date());
+					tmpci.setShenherenId(user.getId());
+				}else if(user.getIsAdmin().equalsIgnoreCase(Role.RENSHI.toString())){
+					//人事审核
+					tmpci.setShenhe2("1");
+					tmpci.setShenhe2Time(new Date());
+					tmpci.setShenheren2Id(user.getId());
 				}
 				mService.saveInfo(tmpci);
 			}catch (Exception e) {
@@ -182,6 +190,12 @@ public class ManualCheckInfoAction extends IAction{
 	}
 	
 	
+	/**
+	 * 后台保存功能
+	 * @Title doAdd
+	 * @author zpj
+	 * @time 2020年6月12日 下午3:05:12
+	 */
 	@Action(value="jlManualCheckInfoAction_doAdd",
 			results={
 			@Result(type="json", params={"root","jsonData"})})
@@ -231,7 +245,6 @@ public class ManualCheckInfoAction extends IAction{
 				tmpci.setDepartmentcode(cinfo.getDepartmentcode());
 				tmpci.setWorkcontent(cinfo.getWorkcontent());
 				tmpci.setAdddate(cinfo.getAdddate());
-				tmpci.setAddress(cinfo.getAddress());
 				tmpci.setOvertime(cinfo.getOvertime());	
 				tmpci.setRemark(cinfo.getRemark());
 				tmpci.setSgxm(cinfo.getSgxm());
@@ -241,15 +254,29 @@ public class ManualCheckInfoAction extends IAction{
 					tmpci.setShenhe(temp.getShenhe());
 				}else{
 					tmpci.setCreateuserid(user.getId());
-					if(user.getIsAdmin().equalsIgnoreCase("1")){
-						//管理员  审核状态改成已审核
-						tmpci.setShenhe("1");
-					}else{
-						//普通人 录入的状态是未审核
+					
+//					if(user.getIsAdmin().equalsIgnoreCase("1")){
+//						//管理员  审核状态改成已审核
+//						tmpci.setShenhe("1");
+//					}else{
+//						//普通人 录入的状态是未审核
+//						tmpci.setShenhe("0");
+//					}
+					if(user.getIsAdmin().equalsIgnoreCase(Role.ZUZHANG.toString())){
+						//组长录入的状态是未审核
 						tmpci.setShenhe("0");
+					}else if(user.getIsAdmin().equalsIgnoreCase(Role.CHEJIANZHUREN.toString())){
+						//车间主任 审核状态改成已审核
+						tmpci.setShenhe("1");
+						tmpci.setShenheTime(new Date());
+						tmpci.setShenherenId(user.getId());
+					}else if(user.getIsAdmin().equalsIgnoreCase(Role.RENSHI.toString())){
+						//人事审核
+						tmpci.setShenhe2("1");
+						tmpci.setShenhe2Time(new Date());
+						tmpci.setShenheren2Id(user.getId());
 					}
 				}
-				
 				mService.saveInfo(tmpci);
 			}
 			if(editFlag){
@@ -263,13 +290,27 @@ public class ManualCheckInfoAction extends IAction{
 				cinfo.setShenhe(temp.getShenhe());
 			}else{
 				cinfo.setCreateuserid(user.getId());
-				if(user.getIsAdmin().equalsIgnoreCase("1")){
-					//管理员  审核状态改成已审核
-					cinfo.setShenhe("1");
-				}else{
-					//普通人 录入的状态是未审核
+				if(user.getIsAdmin().equalsIgnoreCase(Role.ZUZHANG.toString())){
+					//组长录入的状态是未审核
 					cinfo.setShenhe("0");
+				}else if(user.getIsAdmin().equalsIgnoreCase(Role.CHEJIANZHUREN.toString())){
+					//车间主任 审核状态改成已审核
+					cinfo.setShenhe("1");
+					cinfo.setShenheTime(new Date());
+					cinfo.setShenherenId(user.getId());
+				}else if(user.getIsAdmin().equalsIgnoreCase(Role.RENSHI.toString())){
+					//人事审核
+					cinfo.setShenhe2("1");
+					cinfo.setShenhe2Time(new Date());
+					cinfo.setShenheren2Id(user.getId());
 				}
+//				if(user.getIsAdmin().equalsIgnoreCase("1")){
+//					//管理员  审核状态改成已审核
+//					cinfo.setShenhe("1");
+//				}else{
+//					//普通人 录入的状态是未审核
+//					cinfo.setShenhe("0");
+//				}
 			}
 			mService.saveInfo(cinfo);
 		}
@@ -347,7 +388,7 @@ public class ManualCheckInfoAction extends IAction{
 	@Action(value="jlManualCheckInfoAction_getListJson",
 			results={
 			@Result(type="json", params={"root","jsonData"})})
-	public void getUserListJson(){
+	public void getListJson(){
 		user = (UserInfo)request.getSession().getAttribute("jluserinfo");
 		String datemin=request.getParameter("datemin");//开始时间
 		String datemax=request.getParameter("datemax");//结束时间
@@ -515,203 +556,4 @@ public class ManualCheckInfoAction extends IAction{
 		}
 	}
 	
-	/**
-	 * 手机保存考勤信息  安卓使用的
-	 * @Title saveInfoByPhone
-	 * @author zpj
-	 * @time 2017-9-14 上午11:46:41
-	 */
-//	@Action(value="jlManualCheckInfoAction_saveInfoByPhone",
-//			results={
-//			@Result(type="json", params={"root","jsonData"})})
-//	public void saveInfoByPhone(){
-//		user =getCurrentUser(request);
-//		String id=request.getParameter("id");
-//		if(id!=null&&!id.equalsIgnoreCase("")){
-//			
-//		}else{
-//			id=UUID.randomUUID().toString();
-//		}
-//		String sgxm=request.getParameter("sgxm");
-//		String sgqy=request.getParameter("sgqy");
-//		String workdate=request.getParameter("workdate");
-//		String staffnames=request.getParameter("staffname");
-//		String workduringtime=request.getParameter("workduringtime");
-//		String overtime=request.getParameter("overtime");
-//		String workcontent=request.getParameter("workcontent");
-//		String remark=request.getParameter("remark");
-//		String departmentname=request.getParameter("departmentname");
-//		String departmentcode=PingyinTool.cn2FirstSpell(departmentname);
-//		try {
-//			boolean flagcn=staffnames.contains("，");
-//			boolean flagen=staffnames.contains(",");
-//			//判断是否是多人同时输入的
-//			if(flagcn||flagen){
-//				String[] nameArr=null;
-//				if(flagcn){
-//					nameArr=staffnames.split("，");
-//				}
-//				if(flagen){
-//					nameArr=staffnames.split(",");
-//				}
-//				for(int i=0;i<nameArr.length;i++){
-//					CheckInfo tmpci=new CheckInfo();
-//					tmpci.setId(UUID.randomUUID().toString());
-//					tmpci.setStaffname(nameArr[i]);
-//					tmpci.setWorkdate(DateHelper.getDateFromString(workdate, "yyyy-MM-dd"));
-//					tmpci.setWorkduringtime(Double.valueOf(workduringtime));
-//					tmpci.setDepartmentname(departmentname);
-//					tmpci.setDepartmentcode(departmentcode);
-//					tmpci.setWorkcontent(workcontent);
-//					tmpci.setAdddate(new Date());
-////					tmpci.setAddress(cinfo.getAddress());
-//					tmpci.setOvertime(Double.valueOf(overtime));	
-//					tmpci.setRemark(remark);
-//					tmpci.setCreateuserid(user.getId());
-//					tmpci.setSgxm(sgxm);
-//					tmpci.setSgqy(sgqy);
-//					if(user.getIsAdmin().equalsIgnoreCase("1")){
-//						//管理员  审核状态改成已审核
-//						tmpci.setShenhe("1");
-//					}else{
-//						//普通人 录入的状态是未审核
-//						tmpci.setShenhe("0");
-//					}
-//					mService.saveInfo(tmpci);
-//				}
-//				CheckInfo temp=mService.findById(id);
-//				if(temp!=null){
-//					//编辑的时候 如果是有分隔符 说明是需要分割这条数据  ，在分割保存完这些数据以后要删除之前未分割的数据
-//					mService.delInfo(temp.getId());
-//				}
-//			}else{
-//				CheckInfo tmpci=new CheckInfo();
-//				tmpci.setId(id);
-//				tmpci.setStaffname(staffnames);
-//				tmpci.setWorkdate(DateHelper.getDateFromString(workdate, "yyyy-MM-dd"));
-//				tmpci.setWorkduringtime(Double.valueOf(workduringtime));
-//				tmpci.setDepartmentname(departmentname);
-//				tmpci.setDepartmentcode(departmentcode);
-//				tmpci.setWorkcontent(workcontent);
-//				tmpci.setAdddate(new Date());
-//				tmpci.setOvertime(Double.valueOf(overtime));	
-//				tmpci.setRemark(remark);
-//				tmpci.setCreateuserid(user.getId());
-//				tmpci.setSgxm(sgxm);
-//				tmpci.setSgqy(sgqy);
-//				if(user.getIsAdmin().equalsIgnoreCase("1")){
-//					//管理员  审核状态改成已审核
-//					tmpci.setShenhe("1");
-//				}else{
-//					//普通人 录入的状态是未审核
-//					tmpci.setShenhe("0");
-//				}
-//				mService.saveInfo(tmpci);
-//			}
-//			
-//			Map job=new HashMap();
-//			job.put("msg",true);
-//			this.jsonWrite(job);
-//		} catch (Exception e) {
-//			Map job=new HashMap();
-//			try {
-//				job.put("msg",false);
-//				this.jsonWrite(job);
-//			} catch (Exception e1) {
-//				e1.printStackTrace();
-//			}
-//			e.printStackTrace();
-//		}
-//	}
-	
-	/**
-	 * 手机查询考勤信息
-	 * @Title findInfoByPhone
-	 * @author zpj
-	 * @time 2017-9-14 上午11:47:32
-	 */
-//	@Action(value="jlManualCheckInfoAction_findListInfoByPhone",
-//			results={
-//			@Result(type="json", params={"root","jsonData"})})
-//	public void findListInfoByPhone(){
-//		user = getCurrentUser(request);
-//		
-//		String datemin=request.getParameter("datemin");//开始时间
-//		String datemax=request.getParameter("datemax");//结束时间
-//		Map<String,String> param=new HashMap<String,String>();
-//		param.put("datemin", datemin);
-//		param.put("datemax", datemax);
-//		
-//		Map map=mService.findList(user,1,500,param);
-//		List<UserInfo> list=(List<UserInfo>)map.get("list");
-//		try {
-//			this.jsonWrite(map);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
-	
-	
-//	@Action(value="jlManualCheckInfoAction_findInfoByIdByPhone",
-//			results={
-//			@Result(type="json", params={"root","jsonData"})})
-//	public void findInfoByIdByPhone(){
-//		user = getCurrentUser(request);
-//		
-//		String id=request.getParameter("id");//主键id
-//		CheckInfo c=mService.findById(id);
-//		Map map =new HashMap();
-//		if(c!=null){
-//			map.put("msg", true);
-//			map.put("data", c);
-//		}
-//		try {
-//			this.jsonWrite(map);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
-	
-	
-//	@Action(value="jlManualCheckInfoAction_delInfoByIdByPhone",
-//	results={
-//	@Result(type="json", params={"root","jsonData"})})
-//	public void delInfoByIdByPhone(){
-//		user = getCurrentUser(request);
-//		String id = request.getParameter("delId");
-//		if(null!=id&&!id.equalsIgnoreCase("")){
-//			mService.delInfo(id);
-//			try {
-//				Map map =new HashMap();
-//				map.put("msg", true);
-//				this.jsonWrite(map);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-	
-	/**
-	 * 获取手机当前登录对象信息
-	 * @Title getCurrentUser
-	 * @param request
-	 * @return
-	 * @author zpj
-	 * @time 2017-9-18 下午3:33:38
-	 */
-	public UserInfo getCurrentUser(HttpServletRequest request){
-		UserInfo user = (UserInfo)request.getSession().getAttribute("jluserinfo");
-		if(user==null){
-			String id= request.getParameter("loginId");
-			user=jlUserInfoService.findById(Integer.parseInt(id));
-			String isAdmin=request.getParameter("isAdmin");
-			user.setIsAdmin(isAdmin);
-			request.getSession().setAttribute("jluserinfo",user);
-		}
-		return user;
-	}
-	
-
 }

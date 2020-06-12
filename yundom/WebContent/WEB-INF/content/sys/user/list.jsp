@@ -30,7 +30,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	initDep();
+// 	initDep();
 });
 
 
@@ -120,10 +120,10 @@ function admin_start(id){
 	});
 }
 function searchInfo(){
-	list_iframe.contentWindow.load($('#datemin').val(),$('#datemax').val(),$('#username').val(),$('#departmentid').val());
+	list_iframe.contentWindow.load($('#datemin').val(),$('#datemax').val(),$('#username').val(),$('#departmentcode').val());
 }
 function tolist(){
-	list_iframe.contentWindow.load($('#datemin').val(),$('#datemax').val(),$('#username').val(),$('#departmentid').val());
+	list_iframe.contentWindow.load($('#datemin').val(),$('#datemax').val(),$('#username').val(),$('#departmentcode').val());
 }
 
 function dataimport(){
@@ -142,23 +142,23 @@ function changePw(){
 	layer_show("修改密码","jlUserInfoAction_changePw?id="+id,"400","300");
 }
 //初始化部门下拉框
-function initDep(){
-	   $.ajax({
-	     type: "POST",
-	     url: "jlDepartmentInfoAction_getDep",
-	     async:false,
-	     success: function(data1){
-	      var str="";
-	      var data = $.parseJSON(data1);
-	      str="<option value='' >请选择</option>";
-	      for(var i=0;i<data.length;i++){
-	       str+="<option value='"+data[i].code+"' >"+data[i].name+"</option>";
-	      }
-	      $("#departmentid").html(str);
+// function initDep(){
+// 	   $.ajax({
+// 	     type: "POST",
+// 	     url: "jlDepartmentInfoAction_getDep",
+// 	     async:false,
+// 	     success: function(data1){
+// 	      var str="";
+// 	      var data = $.parseJSON(data1);
+// 	      str="<option value='' >请选择</option>";
+// 	      for(var i=0;i<data.length;i++){
+// 	       str+="<option value='"+data[i].code+"' >"+data[i].name+"</option>";
+// 	      }
+// 	      $("#departmentid").html(str);
 
-	     }
-	});
-}
+// 	     }
+// 	});
+// }
 
 </script>
 </head>
@@ -173,9 +173,7 @@ function initDep(){
 		<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}'})" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
 		<input type="text" class="input-text" style="width:250px" placeholder="输入用户名" id="username" name="username">
 		<span class="select-box inline">
-			<select class="select" size="1" name="departmentid" id="departmentid" value="" onchange="" datatype="*" nullmsg="请选择所属部门！">
-	          <option value="" selected>请选择部门</option>
-	        </select>
+			<mf:selectCoder type="DEP" no=""  cssclass="select" name="departmentcode" id="departmentcode" nullmsg="" datatype="" headerKey="" headerValue="--请选择--"  onchange=""   ></mf:selectCoder>
         </span>
 		<button type="button"  class="btn btn-success" onclick="searchInfo();" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 	</div>

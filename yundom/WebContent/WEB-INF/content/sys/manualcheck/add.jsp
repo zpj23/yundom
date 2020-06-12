@@ -45,7 +45,7 @@ $(function(){
 		   success: function(data1){
 			  var str="";
 			  var data = $.parseJSON(data1);
-			  str="<option value='' >请选择</option>";
+			  str="<option value='' >--请选择--</option>";
 			  for(var i=0;i<data.length;i++){
 				 str+="<option value='"+data[i].code+"' >"+data[i].name+"</option>";
 			  }
@@ -106,7 +106,7 @@ function closeWin(){
 
 </script>
 </head>
-<body style="overflow: hidden">
+<body>
 <div >
   <form action="jlManualCheckInfoAction_doAdd" name="form1" method="post" class="form form-horizontal" id="form1">
     <input type="hidden" id="id" name="cinfo.id" value="${cinfo.id}" />
@@ -132,7 +132,14 @@ function closeWin(){
       </div>
       <div class="col-4"> </div>
     </div>
-
+	<div class="row cl">
+      <label class="form-label col-3"><span class="c-red">*</span>工序：</label>
+      <div class="formControls col-5"><span class="select-box">
+		 <mf:selectCoder type="GX" no="${cinfo.gx}"  cssclass="select" name="cinfo.gx" id="gx" nullmsg="请选择工序！" datatype="*" headerKey="" headerValue="--请选择--"  onchange=""   ></mf:selectCoder>
+      	</span>
+      </div>
+      <div class="col-4"> </div>
+    </div>
     <div class="row cl">
       <label class="form-label col-3">具体内容：</label>
       <div class="formControls col-5">

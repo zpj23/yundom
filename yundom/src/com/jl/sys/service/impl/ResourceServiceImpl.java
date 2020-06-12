@@ -275,7 +275,12 @@ public class ResourceServiceImpl  implements ResourceService{
 //		}
 //
 //	}
-//
+	
+	public List findResourceItemByResourceTypeCode(String code){
+		List list=sriDao.findMapObjBySql(" select ite.* from SYS_RESOURCE_ITEM ite left join SYS_RESOURCE_TYPE typ on ite.typeid=typ.id  where typ.type_code='"+code+"' order by ite.item_order asc ");
+		return list;
+	}
+	
 	public List<Object []>  findResourceitemByparentid(int id){
 		String hql = " from SysResourceItem where parentItemid=?";
 		List<Object[]> list;

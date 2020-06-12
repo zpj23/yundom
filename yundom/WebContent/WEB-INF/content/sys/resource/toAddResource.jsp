@@ -116,7 +116,7 @@
 			    success: function(){
 				//刷新父页面，关闭window
 // 				common.alert_success('保存成功','resourceAction_listLevel1');
-				 layer.msg('保存成功!',{icon: 1,time:1000});
+				 parent.layer.msg('保存成功!',{icon: 1,time:1000});
 				 closethisWin();
 			 }
 			});                

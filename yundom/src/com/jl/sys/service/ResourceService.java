@@ -41,7 +41,17 @@ public interface ResourceService {
 	 * @time 2020年5月23日 下午4:08:50
 	 */
 	public String findResourceItemJson(String id);
-//	
+	
+
+	/**
+	 * 根据type表中type_code编码查询item表中列表项数据
+	 * @Title findResourceItemByResourceTypeCode
+	 * @param code
+	 * @author zpj
+	 * @time 2020年6月11日 下午3:14:04
+	 */
+	public List findResourceItemByResourceTypeCode(String code);
+	
 //	//显示一个项的信息
 //	public SysResourceItem showOneItem(int id);
 //	

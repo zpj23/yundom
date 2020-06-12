@@ -15,8 +15,16 @@ $(document).ready(function(){
 		queryParams : {
 			
 		},
-		rowStyler:function(rowIndex,rowData){  
-            return 'height:55px;';  
+        rowStyler:function(rowIndex,rowData){ 
+        	var tempStr="";
+			var col="black";
+			if(rowData.isdel==1){
+				tempStr="启用";
+				col="grey";
+			}else if(rowData.isdel==0){
+				tempStr="停用";
+			}
+			return 'color:'+col;
         },
 		idField : 'id',
 		frozenColumns : [ [ {
@@ -37,10 +45,6 @@ $(document).ready(function(){
 			field : 'telephone',
 			title : '联系电话',
 			width : 50
-		},{
-			field : 'address',
-			title : '地址',
-			width : 200
 		},{
 			field : 'createtime',
 			title : '创建时间',
@@ -110,12 +114,12 @@ function admin_del(id){
 	parent.admin_del(id);
 }
 
-function load(datemin,datemax,username,departmentid){
+function load(datemin,datemax,username,departmentcode){
 	datagrid.datagrid("load", { 
 		datemin:datemin,
 		datemax:datemax,
 		username:username,
-		departmentid:departmentid
+		departmentcode:departmentcode
 	});
 }
 

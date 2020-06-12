@@ -40,7 +40,6 @@
 	});
 	
 	function addType(){
-// 	   common.openWindow('新增类别', 'resourceAction_toAddRescource', 550, 160);	
 		parent.openWindow('新增类别', 'resourceAction_toAddRescource', 550, 160);
 	}
 	
@@ -48,10 +47,8 @@
 	    var zTree = $.fn.zTree.getZTreeObj("treeDiv");
 		var treeNode = zTree.getSelectedNodes()[0];
 		if(treeNode == undefined){
-// 			common.alert_remind('请选择要修改的记录!');
-			parent.layer.msg('请选择要修改的记录!',{icon: 5,time:1000});
+			parent.layer.msg('请选择要修改的记录!',{icon: 0,time:1000});
 		}else{
-// 	      common.openWindow('编辑类别', 'resourceAction_toAddRescource?id='+treeNode.id+'&pid='+treeNode.pId, 550, 160);	
 	      parent.openWindow('编辑类别', 'resourceAction_toAddRescource?id='+treeNode.id+'&pid='+treeNode.pId, 550, 160);
 		}
 	}
@@ -70,11 +67,10 @@
 						success : function(r) {
 							if (r==1) {
 								zTree.removeNode(treeNode);
-// 								common.alert_info('删除成功');
 								parent.layer.msg('删除成功!',{icon: 1,time:1000});
 							}else if(r==2){
 // 								common.alert_remind('该类型存在下级节点,不能删除');
-								parent.layer.msg('该类型存在下级节点,不能删除!',{icon:5,time:1000});
+								parent.layer.msg('该类型存在下级节点,不能删除!',{icon:0,time:1000});
 							}else {
 // 								common.alert_error('删除失败!');
 								parent.layer.msg('删除失败!',{icon:5,time:1000});
@@ -356,8 +352,7 @@
 
 	function edit() {
 		if (editRow) {
-// 			common.alert_remind('您没有结束之前编辑的数据，请先保存或取消编辑!');		
-			parent.layer.msg('您没有结束之前编辑的数据，请先保存或取消编辑!',{icon: 5,time:1000});
+			parent.layer.msg('您没有结束之前编辑的数据，请先保存或取消编辑!',{icon: 0,time:1000});
 		} else {
 			var node = treegrid.treegrid('getSelected');
 			if (node && node.id) {
@@ -368,8 +363,7 @@
 	}
 	function append() {
 		if (editRow) {
-			parent.layer.msg('您没有结束之前编辑的数据，请先保存或取消编辑!',{icon: 5,time:1000});
-// 			common.alert_remind('您没有结束之前编辑的数据，请先保存或取消编辑!');
+			parent.layer.msg('您没有结束之前编辑的数据，请先保存或取消编辑!',{icon: 0,time:1000});
 		} else {
 			var node = treegrid.treegrid('getSelected');
 			var data = [ {				
@@ -407,8 +401,7 @@
 		var node = treegrid.treegrid('getSelected');
 		if (node) {
 			if (node.id == '0') {
-// 				common.alert_remind('不能删除根节点!');
-				parent.layer.msg('不能删除根节点!',{icon: 5,time:1000});
+				parent.layer.msg('不能删除根节点!',{icon: 0,time:1000});
 				return;
 			}
 			$.messager.confirm('询问', '您确定要删除【' + node.itemName + '】数据字典项？', function(b) {
@@ -422,16 +415,11 @@
 						dataType : "json",
 						success : function(r) {
 							if (r==1) {editRow = undefined;
-								 //treegrid.treegrid('reload');
-								// parent.tree.tree('reload');
 								treegrid.treegrid('remove', node.id);								
-// 								common.alert_info('删除成功');
 								parent.layer.msg('删除成功!',{icon: 1,time:1000});
 							}else if (r==2) {
-// 								common.alert_remind('该数据字典项存在下级数据,不能删除');
-								parent.layer.msg('该数据字典项存在下级数据,不能删除',{icon:5,time:1000});
+								parent.layer.msg('该数据字典项存在下级数据,不能删除',{icon:0,time:1000});
 							} else {
-// 								common.alert_error('删除失败!');
 								parent.layer.msg('删除失败',{icon:5,time:1000});
 							}
 						}
@@ -452,12 +440,9 @@
 				dataType : "json",
 				success : function(r) {
 					if (r==1) {editRow = undefined;
-						 //treegrid.treegrid('reload');
-						// parent.tree.tree('reload');
 						treegrid.treegrid('remove', id);
 					}else if (r==2) {
-// 						common.alert_remind('该数据字典项存在下级数据,不能删除');
-						parent.layer.msg('该数据字典项存在下级数据,不能删除',{icon:5,time:1000});
+						parent.layer.msg('该数据字典项存在下级数据,不能删除',{icon:0,time:1000});
 					} else {
 // 						common.alert_error('删除失败!');
 						parent.layer.msg('删除失败',{icon:5,time:1000});
@@ -481,21 +466,9 @@
 </head>
 <body >
 <form action="" method="post" id="form_resource_list">
-<div class="easyui-layout" style="background-color:#E6EEF8"> 
-            <div data-options="region:'west',split:true,collapsible:false,border:true" style="width:290px;margin-top: 3px; border-left: hidden;padding-bottom: 188px;overflow: inherit;"  > 
-                    <div data-options="region:'north',split:false,border:false" style="overflow: visible">
-                    
-	                     <div class="panel" style="background-color:#E6EEF8; padding-top:3px  ;padding-left: 3px ;padding-right: 3px" >
-								<div class="panel-header" style="   ">
-									    <a class="easyui-linkbutton" iconCls="icon-add" onclick="addType();" plain="true" href="javascript:void(0);">新增</a>
-			                   			<span class="ge"></span>
-					                    <a class="easyui-linkbutton" iconCls="icon-edit" onclick="modifyType();" plain="true" href="javascript:void(0);">编辑</a>
-					                    <span class="ge"></span>
-					                    <a class="easyui-linkbutton" iconCls="icon-remove" onclick="delType();" plain="true" href="javascript:void(0);">删除</a>
-								</div>
-						</div>  
-					</div>   
-					<div data-options="region:'center',border:true" style="padding-top:0px;overflow: scroll;height: 100%" class="pd3">     
+<div class="easyui-layout" style="background-color:#E6EEF8;"> 
+            <div data-options="region:'west',split:true,collapsible:false,border:true" style="width:290px;margin-top: 3px; border-left: hidden;overflow: inherit;"  > 
+					<div data-options="region:'center',border:true" style="padding-top:0px;overflow:auto;height: 100%" class="pd3">     
 						<ul id="treeDiv" class="ztree" style="height:100%;"></ul>
 					</div>
 			
@@ -504,8 +477,8 @@
             	<div data-options="region:'north',split:false,border:false">
 	            	 <div class="panel " style="background-color:#E6EEF8;padding-top: 3px;padding-bottom: 3px;">
 								<div class="panel-header">
-									    <a class="easyui-linkbutton" iconCls="icon-add" onclick="xz();" plain="true" href="javascript:void(0);">新增</a>
-			                   			<span class="ge"></span>
+<!-- 									    <a class="easyui-linkbutton" iconCls="icon-add" onclick="xz();" plain="true" href="javascript:void(0);">新增</a> -->
+<!-- 			                   			<span class="ge"></span> -->
 			                   			<a class="easyui-linkbutton" iconCls="icon-add" onclick="xzzjd();" plain="true" href="javascript:void(0);">新增主节点</a>
 			                   			<span class="ge"></span>
 					                    <a class="easyui-linkbutton" iconCls="icon-edit" onclick="bj();" plain="true" href="javascript:void(0);">编辑</a>

@@ -50,6 +50,7 @@ import com.jl.sys.service.LogInfoService;
 import com.jl.sys.service.ManualInfoService;
 import com.jl.sys.service.UserInfoService;
 import com.jl.util.DateHelper;
+import com.jl.util.Role;
 
 import net.sf.json.JSONArray;
 
@@ -388,13 +389,27 @@ public class ManualCheckPhoneAction extends IAction {
 						tmpci.setShenhe(temp.getShenhe());
 					}else{
 						tmpci.setCreateuserid(user.getId());
-						if(user.getIsAdmin().equalsIgnoreCase("1")){
-							//管理员  审核状态改成已审核
-							tmpci.setShenhe("1");
-						}else{
-							//普通人 录入的状态是未审核
+						if(user.getIsAdmin().equalsIgnoreCase(Role.ZUZHANG.toString())){
+							//组长录入的状态是未审核
 							tmpci.setShenhe("0");
+						}else if(user.getIsAdmin().equalsIgnoreCase(Role.CHEJIANZHUREN.toString())){
+							//车间主任 审核状态改成已审核
+							tmpci.setShenhe("1");
+							tmpci.setShenheTime(new Date());
+							tmpci.setShenherenId(user.getId());
+						}else if(user.getIsAdmin().equalsIgnoreCase(Role.RENSHI.toString())){
+							//人事审核
+							tmpci.setShenhe2("1");
+							tmpci.setShenhe2Time(new Date());
+							tmpci.setShenheren2Id(user.getId());
 						}
+//						if(user.getIsAdmin().equalsIgnoreCase("1")){
+//							//管理员  审核状态改成已审核
+//							tmpci.setShenhe("1");
+//						}else{
+//							//普通人 录入的状态是未审核
+//							tmpci.setShenhe("0");
+//						}
 					}
 					mService.saveInfo(tmpci);
 				}
@@ -412,13 +427,27 @@ public class ManualCheckPhoneAction extends IAction {
 				}else{
 					id=UUID.randomUUID().toString();
 					tmpci.setCreateuserid(user.getId());
-					if(user.getIsAdmin().equalsIgnoreCase("1")){
-						//管理员  审核状态改成已审核
-						tmpci.setShenhe("1");
-					}else{
-						//普通人 录入的状态是未审核
+					if(user.getIsAdmin().equalsIgnoreCase(Role.ZUZHANG.toString())){
+						//组长录入的状态是未审核
 						tmpci.setShenhe("0");
+					}else if(user.getIsAdmin().equalsIgnoreCase(Role.CHEJIANZHUREN.toString())){
+						//车间主任 审核状态改成已审核
+						tmpci.setShenhe("1");
+						tmpci.setShenheTime(new Date());
+						tmpci.setShenherenId(user.getId());
+					}else if(user.getIsAdmin().equalsIgnoreCase(Role.RENSHI.toString())){
+						//人事审核
+						tmpci.setShenhe2("1");
+						tmpci.setShenhe2Time(new Date());
+						tmpci.setShenheren2Id(user.getId());
 					}
+//					if(user.getIsAdmin().equalsIgnoreCase("1")){
+//						//管理员  审核状态改成已审核
+//						tmpci.setShenhe("1");
+//					}else{
+//						//普通人 录入的状态是未审核
+//						tmpci.setShenhe("0");
+//					}
 				}
 				tmpci.setId(id);
 				tmpci.setStaffname(staffnames);

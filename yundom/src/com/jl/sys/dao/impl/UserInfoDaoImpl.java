@@ -47,8 +47,8 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao{
 		if(null!=param.get("username")&&!"".equalsIgnoreCase(param.get("username").toString())){
 			sql.append(" and ( username like ").append("'%"+param.get("username")+"%' or loginname like'%"+param.get("username")+"%' or address like'%"+param.get("username")+"%' or remark like'%"+param.get("username")+"%' ) ");
 		}
-		if(null!=param.get("departmentid")&&!"".equalsIgnoreCase(param.get("departmentid").toString())){
-			sql.append(" and departmentcode = ").append("'"+param.get("departmentid")+"'");
+		if(null!=param.get("departmentcode")&&!"".equalsIgnoreCase(param.get("departmentcode").toString())){
+			sql.append(" and departmentcode = ").append("'"+param.get("departmentcode")+"'");
 		}
 		sql.append(" order by createtime desc");
 		List list=this.findMapObjBySql(sql.toString(), null, page, rows);
@@ -68,8 +68,8 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao{
 		if(null!=param.get("username")&&!"".equalsIgnoreCase(param.get("username").toString())){
 			sql.append(" and ( username like ").append("'%"+param.get("username")+"%' or loginname like'%"+param.get("username")+"%' or address like'%"+param.get("username")+"%' or remark like'%"+param.get("username")+"%' ) ");
 		}
-		if(null!=param.get("departmentid")&&!"".equalsIgnoreCase(param.get("departmentid").toString())){
-			sql.append(" and departmentcode = ").append("'"+param.get("departmentid")+"'");
+		if(null!=param.get("departmentcode")&&!"".equalsIgnoreCase(param.get("departmentcode").toString())){
+			sql.append(" and departmentcode = ").append("'"+param.get("departmentcode")+"'");
 		}
 		int count=this.findListCount(sql.toString(), null);
 		return count;

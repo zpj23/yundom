@@ -44,10 +44,10 @@ function checkLogin() {
         </form>	
         <div class="form_put">
             <div class="txt_name txt_put mt20">
-                <input type="text" value="" id="username1" name="username1"  placeholder="请输入您的账号">
+                <input type="text" value="super" id="username1" name="username1"  placeholder="请输入您的账号">
             </div>
             <div class="txt_password txt_put mt20">
-                <input value="" id="pwd1" name="pwd1" type="password" placeholder="输入您的密码">
+                <input value="19734862" id="pwd1" name="pwd1" type="password" placeholder="输入您的密码">
             </div>
         </div>
        

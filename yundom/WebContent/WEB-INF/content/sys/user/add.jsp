@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ include file="/common/h-ui_header.jsp"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -61,33 +61,31 @@ $(function(){
 	}
 	);
 	
-	$.ajax({
-		   type: "POST",
-		   url: "jlDepartmentInfoAction_getDep",
-		   async:false,
-		   success: function(data1){
-			  var str="";
-			  var data = $.parseJSON(data1);
-			  str="<option value='' >请选择</option>";
-			  for(var i=0;i<data.length;i++){
-				 str+="<option value='"+data[i].code+"' >"+data[i].name+"</option>";
-			  }
-			  $("#departmentcode").html(str);
-			  $('#departmentcode').val("${user.departmentcode}");
-			  $('#remark').html("${user.remark}");
-			  if("${user.sex}"=="1"){
-				  $('#sex-1').attr("checked","checked");
-			  }else if("${user.sex}"=="2"){
-				  $('#sex-2').attr("checked","checked");
-			  }else if("${user.sex}"=="3"){
-				  $('#sex-3').attr("checked","checked");
-			  }
-			  if("${user.id}"!="0"){
-				 $("#password").attr("readonly",true);
-			  }
-		   }
-	});
-	
+// 	$.ajax({
+// 		   type: "POST",
+// 		   url: "jlDepartmentInfoAction_getDep",
+// 		   async:false,
+// 		   success: function(data1){
+// 			  var str="";
+// 			  var data = $.parseJSON(data1);
+// 			  str="<option value='' >请选择</option>";
+// 			  for(var i=0;i<data.length;i++){
+// 				 str+="<option value='"+data[i].code+"' >"+data[i].name+"</option>";
+// 			  }
+// 			  $("#departmentcode").html(str);
+// 			  $('#departmentcode').val("${user.departmentcode}");
+			 
+// 		   }
+// 	});
+	 $('#remark').html("${user.remark}");
+	  if("${user.sex}"=="1"){
+		  $('#sex-1').attr("checked","checked");
+	  }else if("${user.sex}"=="2"){
+		  $('#sex-2').attr("checked","checked");
+	  }
+	  if("${user.id}"!="0"){
+		 $("#password").attr("readonly",true);
+	  }
 });
 
 
@@ -133,10 +131,6 @@ function choose_role_back(userids,usernames){
 					<input type="radio" id="sex-2" name="user.sex" value="2">
 					<label for="sex-2">女</label>
 				</div>
-				<div class="radio-box">
-					<input type="radio" id="sex-3" name="user.sex" value="3">
-					<label for="sex-3">保密</label>
-				</div>
 		</div>
     </div>
     <div class="row cl">
@@ -172,22 +166,8 @@ function choose_role_back(userids,usernames){
     <div class="row cl">
       <label class="form-label col-3"><span class="c-red">*</span>所属部门：</label>
       <div class="formControls col-5"> <span class="select-box">
-      	<input type="hidden" id="departmentname" name="user.departmentname" value="${user.departmentname}"/>
-        <select class="select" size="1" name="user.departmentcode" id="departmentcode" value="${user.departmentcode}" onchange="changeDep()" datatype="*" nullmsg="请选择所属部门！">
-          <option value="" selected>请选择部门</option>
-          <option value="1">技术部</option>
-          <option value="2">实施部</option>
-          <option value="3">企划部</option>
-          <option value="4">admin</option>
-        </select>
+      	<mf:selectCoder type="DEP" no="${user.departmentcode}"  cssclass="select" name="user.departmentcode" id="departmentcode" nullmsg="所属部门" datatype="*" headerKey="" headerValue="--请选择--"  onchange=""   ></mf:selectCoder>
         </span> </div>
-      <div class="col-4"> </div>
-    </div>
-    <div class="row cl">
-      <label class="form-label col-3">地址：</label>
-      <div class="formControls col-5">
-        <input type="text" class="input-text" value="${user.address}" name="user.address" id="address"  >
-      </div>
       <div class="col-4"> </div>
     </div>
     <div class="row cl">

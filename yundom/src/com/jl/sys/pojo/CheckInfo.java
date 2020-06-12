@@ -23,11 +23,16 @@ public class CheckInfo implements java.io.Serializable{
 	private String departmentcode;//对应部门 编码
 	private String workcontent;//工作内容
 	private Date adddate;//创建时间
-	private String address;//施工项目及区域
 	private double overtime;//加班时长
 	private int createuserid;//创建人id
+	private int zrzz;//责任组长id
 	private String remark;//备注
-	private String shenhe;//审核功能 0待审核，1已审核
+	private String shenhe;//车间主任角色审核功能  0待审核，1已审核
+	private Date shenheTime;//车间主任角色审核的时间
+	private int shenherenId;//车间主任审核人员id
+	private String shenhe2;//人事角色审核功能 查询字典 0待审核，1已审核
+	private Date shenhe2Time;//人事角色角色审核的时间
+	private int shenheren2Id;//人事审核人员id
 	private String sgxm;//address字段分出来的施工项目
 	private String sgqy;//address字段分出来的施工区域
 	private String gx;//工序（字典）
@@ -94,15 +99,7 @@ public class CheckInfo implements java.io.Serializable{
 		this.departmentcode = departmentcode;
 	}
 	
-	@Lob 
-	@Type(type = "org.hibernate.type.StringClobType") 
-	@Column(name="address", columnDefinition="text", nullable=true)
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	
 	@Column(name = "overtime", precision=12 ,scale=2)
 	public double getOvertime() {
 		return overtime;
@@ -158,8 +155,36 @@ public class CheckInfo implements java.io.Serializable{
 	public void setGx(String gx) {
 		this.gx = gx;
 	}
-	
-	
+	public String getShenhe2() {
+		return shenhe2;
+	}
+	public void setShenhe2(String shenhe2) {
+		this.shenhe2 = shenhe2;
+	}
+	public Date getShenheTime() {
+		return shenheTime;
+	}
+	public void setShenheTime(Date shenheTime) {
+		this.shenheTime = shenheTime;
+	}
+	public Date getShenhe2Time() {
+		return shenhe2Time;
+	}
+	public void setShenhe2Time(Date shenhe2Time) {
+		this.shenhe2Time = shenhe2Time;
+	}
+	public int getShenherenId() {
+		return shenherenId;
+	}
+	public void setShenherenId(int shenherenId) {
+		this.shenherenId = shenherenId;
+	}
+	public int getShenheren2Id() {
+		return shenheren2Id;
+	}
+	public void setShenheren2Id(int shenheren2Id) {
+		this.shenheren2Id = shenheren2Id;
+	}
 	
 	
 }

@@ -45,9 +45,9 @@ import com.jl.sys.service.RoleInfoService;
 import com.jl.sys.service.UserInfoService;
 import com.jl.util.ClientTool;
 import com.jl.util.DateHelper;
+import com.jl.util.Role;
 import com.jl.util.StringFormat;
 import com.jl.util.WxUtil;
-import com.thread.User;
 
 /**
  * @Description: 登陆后台功能
@@ -152,90 +152,7 @@ public class LoginAction extends IAction{
 		}
 		
 	}
-	/**
-	 * 微信的登陆验证
-	 * @Title jlLoginAction_loginByWx
-	 * @author zpj
-	 * @time 2019年7月22日 下午2:13:41
-	 */
-	@Action(value="jlLoginAction_loginByWx",
-			results={
-			@Result(type="json", params={"root","jsonData"})})
-	public void jlLoginAction_loginByWx(){
-		String username=request.getParameter("username");
-		String password=request.getParameter("password");
-		System.out.println(username+">>>>>"+password);
-		UserInfo tempUser=new UserInfo();
-		tempUser.setLoginname(username);
-		tempUser.setPassword(password);
-		UserInfo luser=jlUserInfoService.findLogin(tempUser,false);
-		Map retMap=new HashMap();
-		if(null!=luser){
-			
-			//根据登陆用户信息查询 根据user id信息查询用户所有的角色和部门所有的角色查询关联表对应角色
-			//如果用户角色和部门角色相同，则取一个，再以及角色对应的菜单信息，以及菜单对应的操作信息
-			// role的 id、rolecode、rolename   
-			//用户的授权角色
-			List<Object[]> ulist =jlRoleInfoService.findRoleIdByUserId(luser.getId());
-			//部门的授权角色
-			DepartmentInfo dp=jlDepartmentInfoService.findDeptByDeptCode(luser.getDepartmentcode());
-			// role的 id、rolecode、rolename   
-			List<Object[]> dlist=jlRoleInfoService.findRoleIdByDepartmentId(dp.getId());
-			Set roleidSet=new HashSet();
-			Set rolecodeSet=new HashSet();
-			for(int i=0;i<ulist.size();i++){
-				roleidSet.add(ulist.get(i)[0]);
-				rolecodeSet.add(ulist.get(i)[1]);
-			}
-			for(int j=0;j<dlist.size();j++){
-				if(roleidSet.contains(dlist.get(j)[0])){
-					continue;
-				}else{
-					roleidSet.add(dlist.get(j)[0]);
-					rolecodeSet.add(dlist.get(j)[1]);
-				}
-			}
-			
-			
-			
-			
-			if(rolecodeSet.isEmpty()){
-				retMap.put("info", "该用户未授权,无法登陆！");
-				retMap.put("msg",false);
-			}else{
-				//用户的map对象
-				Map umap=new HashMap();
-				umap.put("id", luser.getId());
-				umap.put("loginname", luser.getLoginname());
-				umap.put("openId", luser.getOpenid());
-				umap.put("departmentcode",luser.getDepartmentcode());
-				umap.put("departmentname",luser.getDepartmentname());
-				umap.put("telephone", luser.getTelephone());
-				if(rolecodeSet.contains("ROLE_1462257894696")){//是管理员角色
-					umap.put("isAdmin", "1");
-				}else{//其他角色
-					umap.put("isAdmin", "0");
-				}
-				retMap.put("user", umap);
-				retMap.put("flag", true);
-				retMap.put("msg", "登陆成功");
-			}	
-			
-			
-			
-		}else{
-			retMap.put("flag", false);
-			retMap.put("msg", "用户名或密码错误");
-		}
-		
-		
-		try {
-			jsonWrite(retMap);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
 	
 	/**
 	 * 手机登陆
@@ -286,10 +203,14 @@ public class LoginAction extends IAction{
 					retMap.put("info", "该用户未授权,无法登陆！");
 					retMap.put("msg",false);
 				}else{
-					if(rolecodeSet.contains("ROLE_1462257894696")){//是管理员角色
-						luser.setIsAdmin("1");
-					}else{//其他角色
-						luser.setIsAdmin("0");
+					if(rolecodeSet.contains(Role.ZUZHANG.toString())){
+						luser.setIsAdmin(Role.ZUZHANG.toString());
+					}else if(rolecodeSet.contains(Role.CHEJIANZHUREN.toString())){
+						luser.setIsAdmin(Role.CHEJIANZHUREN.toString());
+					}else if(rolecodeSet.contains(Role.RENSHI.toString())){
+						luser.setIsAdmin(Role.RENSHI.toString());
+					}else if(rolecodeSet.contains(Role.ADMIN.toString())){
+						luser.setIsAdmin(Role.ADMIN.toString());
 					}
 					retMap.put("info", "登陆成功！");
 					retMap.put("msg",true);
@@ -400,10 +321,14 @@ public class LoginAction extends IAction{
 						rolecodeSet.add(dlist.get(j)[1]);
 					}
 				}
-				if(rolecodeSet.contains("ROLE_1462257894696")){//是管理员角色
-					luser.setIsAdmin("1");
-				}else{
-					luser.setIsAdmin("0");
+				if(rolecodeSet.contains(Role.ZUZHANG.toString())){
+					luser.setIsAdmin(Role.ZUZHANG.toString());
+				}else if(rolecodeSet.contains(Role.CHEJIANZHUREN.toString())){
+					luser.setIsAdmin(Role.CHEJIANZHUREN.toString());
+				}else if(rolecodeSet.contains(Role.RENSHI.toString())){
+					luser.setIsAdmin(Role.RENSHI.toString());
+				}else if(rolecodeSet.contains(Role.ADMIN.toString())){
+					luser.setIsAdmin(Role.ADMIN.toString());
 				}
 				request.getSession().setAttribute("jluserinfo",luser);
 				request.getSession().setAttribute("jlroleids",roleidSet);
@@ -452,7 +377,7 @@ public class LoginAction extends IAction{
 					jlLogInfoService.logInfo(loginfo);
 				}
 				//排名查询
-				initRank(luser);
+//				initRank(luser);
 				
 				
 				if(null!=rember&&rember.equalsIgnoreCase("1")){
@@ -676,23 +601,23 @@ public class LoginAction extends IAction{
 		}
 	}
 	
-	public UserInfo getCurrentUser(HttpServletRequest request){
-		UserInfo user = (UserInfo)request.getSession().getAttribute("jluserinfo");
-//		Enumeration enumeration =request.getSession().getAttributeNames();//获取session中所有的键值对
-//		while(enumeration.hasMoreElements()){
-//            String AddFileName=enumeration.nextElement().toString();//获取session中的键值
-//            UserInfo value=(UserInfo)request.getSession().getAttribute(AddFileName);//根据键值取出session中的值
-//            System.out.println(AddFileName);
-//            System.out.println(value.getLoginname());
-//            //String FileName= (String)session.getAttribute("AddFileName");
-//        }
-		if(user==null){
-			String id= request.getParameter("loginId");
-			user=jlUserInfoService.findById(Integer.parseInt(id));
-			String isAdmin=request.getParameter("isAdmin");
-			user.setIsAdmin(isAdmin);
-			request.getSession().setAttribute("jluserinfo",user);
-		}
-		return user;
-	}
+//	public UserInfo getCurrentUser(HttpServletRequest request){
+//		UserInfo user = (UserInfo)request.getSession().getAttribute("jluserinfo");
+////		Enumeration enumeration =request.getSession().getAttributeNames();//获取session中所有的键值对
+////		while(enumeration.hasMoreElements()){
+////            String AddFileName=enumeration.nextElement().toString();//获取session中的键值
+////            UserInfo value=(UserInfo)request.getSession().getAttribute(AddFileName);//根据键值取出session中的值
+////            System.out.println(AddFileName);
+////            System.out.println(value.getLoginname());
+////            //String FileName= (String)session.getAttribute("AddFileName");
+////        }
+//		if(user==null){
+//			String id= request.getParameter("loginId");
+//			user=jlUserInfoService.findById(Integer.parseInt(id));
+//			String isAdmin=request.getParameter("isAdmin");
+//			user.setIsAdmin(isAdmin);
+//			request.getSession().setAttribute("jluserinfo",user);
+//		}
+//		return user;
+//	}
 }

@@ -8,7 +8,7 @@
 	
 		<tag>
 		<name>selectCoder</name>
-		<tag-class>com.goldenweb.sys.util.tag.SelectTag</tag-class>
+		<tag-class>com.jl.sys.util.tag.SelectTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<name>type</name>
@@ -76,10 +76,16 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>validType</name>
+			<name>datatype</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<name>nullmsg</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		
 		<attribute>
 			<name>isarea</name>
 			<required>false</required>
