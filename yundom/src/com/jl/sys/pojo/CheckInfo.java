@@ -19,13 +19,13 @@ public class CheckInfo implements java.io.Serializable{
 	private String staffname;//员工名
 	private Date workdate;//工作日期；
 	private double workduringtime=8;//工作时长
-	private String departmentname;//工作地点 对应部门 
-	private String departmentcode;//对应部门 编码
+	private String departmentname;//工作地点 对应车间
+	private String departmentcode;//对应车间 编码 字典
 	private String workcontent;//工作内容
 	private Date adddate;//创建时间
 	private double overtime;//加班时长
-	private int createuserid;//创建人id
-	private int zrzz;//责任组长id
+	private int createuserid;//创建人id (理论上是组长id)
+	private int reportcjzrid;//组长上报的责任车间主任id
 	private String remark;//备注
 	private String shenhe;//车间主任角色审核功能  0待审核，1已审核
 	private Date shenheTime;//车间主任角色审核的时间
@@ -184,6 +184,13 @@ public class CheckInfo implements java.io.Serializable{
 	}
 	public void setShenheren2Id(int shenheren2Id) {
 		this.shenheren2Id = shenheren2Id;
+	}
+	
+	public int getReportcjzrid() {
+		return reportcjzrid;
+	}
+	public void setReportcjzrid(int reportcjzrid) {
+		this.reportcjzrid = reportcjzrid;
 	}
 	
 	

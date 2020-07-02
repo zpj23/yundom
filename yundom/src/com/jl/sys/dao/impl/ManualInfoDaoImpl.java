@@ -116,11 +116,13 @@ public class ManualInfoDaoImpl extends BaseDao<CheckInfo> implements ManualInfoD
 		if(null!=param.get("lrrname")&&!"".equalsIgnoreCase(param.get("lrrname").toString())){
 			sql.append(" and  u.username like ").append("'"+param.get("lrrname")+"%'  ");
 		}
-		//判断是否是管理员用户
-		if(!user.getIsAdmin().equalsIgnoreCase("1")){
-			//不是管理员
+		
+		if(user.getIsAdmin().contains(Role.ZUZHANG.toString())){
 			sql.append(" and  a.createuserid="+user.getId());
+		}else if(user.getIsAdmin().contains(Role.CHEJIANZHUREN.toString())){
+			sql.append(" and  a.reportcjzrid="+user.getId());
 		}
+		
 		sql.append(" order by workdate desc,adddate desc ");
 		List list=this.findMapObjBySql(sql.toString(), null, page, rows);
 		return list;
@@ -156,11 +158,13 @@ public class ManualInfoDaoImpl extends BaseDao<CheckInfo> implements ManualInfoD
 		if(null!=param.get("lrrname")&&!"".equalsIgnoreCase(param.get("lrrname").toString())){
 			sql.append(" and  u.username like ").append("'"+param.get("lrrname")+"%'  ");
 		}
-		//判断是否是管理员用户
-		if(!user.getIsAdmin().equalsIgnoreCase("1")){
-			//不是管理员
+		
+		if(user.getIsAdmin().contains(Role.ZUZHANG.toString())){
 			sql.append(" and  a.createuserid="+user.getId());
+		}else if(user.getIsAdmin().contains(Role.CHEJIANZHUREN.toString())){
+			sql.append(" and  a.reportcjzrid="+user.getId());
 		}
+		
 		int count=this.findListCountBySql(sql.toString(), null);
 		return count;
 		

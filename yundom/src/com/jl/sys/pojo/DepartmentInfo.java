@@ -18,7 +18,7 @@ public class DepartmentInfo  implements java.io.Serializable{
 	private String code;//部门编码
 	private String parent_name;//上级部门名称
 	private String parent_code;//上级部门编码
-	private String parent_id;//上级部门id
+//	private String parent_id;//上级部门id
 	private int userid;//部门管理员id
 	private String username;//部门管理员姓名;
 	private String remark;//部门说明
@@ -61,13 +61,6 @@ public class DepartmentInfo  implements java.io.Serializable{
 		this.parent_code = parent_code;
 	}
 	
-	@Column(name = "parent_id",  nullable = false, precision = 22, scale = 0)
-	public String getParent_id() {
-		return parent_id;
-	}
-	public void setParent_id(String parent_id) {
-		this.parent_id = parent_id;
-	}
 	@Column(name = "userid",  precision = 22, scale = 0)
 	public int getUserid() {
 		return userid;

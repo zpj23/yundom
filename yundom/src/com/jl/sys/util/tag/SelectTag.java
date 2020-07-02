@@ -184,31 +184,6 @@ public class SelectTag extends TagSupport {
                 option.append("'>" + this.headerValue + "</option>");
             }
             /* 插入option */
-            Map<String,String> codeMap ;
-//            String typecode = this.type;
-//            if (null != this.isarea && !"".equals(this.isarea)) {
-//            	if("".equals(typecode)){
-//            		typecode =null;
-//            	}
-//            	codeMap = OrginfoCache.getCodeMapByType(typecode);
-//            }else{
-//            	codeMap = ResourceCodeUtil.getCodeMapByType(typecode);
-//            }
-            
-            
-            
-//            Set<Entry<String,String>> set = codeMap.entrySet();
-//            Iterator<Entry<String,String>> iterator = set.iterator();
-//            Entry<String,String> entry;
-//            while(iterator.hasNext()) {
-//                entry = iterator.next();
-//                option.append("<option value='" + entry.getKey() + "'");
-//                if(this.no.equals(entry.getKey())) {
-//                    option.append(" selected");
-//                }
-//                option.append(">" + entry.getValue() + "</option>");
-//            }
-            
             List<Map> mlist= resourceService.findResourceItemByResourceTypeCode(this.type);
             
             for(int m=0;m<mlist.size();m++){

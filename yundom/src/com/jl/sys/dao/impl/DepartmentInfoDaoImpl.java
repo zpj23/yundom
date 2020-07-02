@@ -83,6 +83,14 @@ public class DepartmentInfoDaoImpl extends BaseDao<DepartmentInfo> implements De
 		List list=this.findMapObjBySql(sql.toString(), null, 1, 100);
 		return list;
 	}
+	public List<Map> findDepartListByPCode(String code){
+		StringBuffer sql = new StringBuffer();
+		sql.append(" select * from jl_department_info a where  parent_code ='"+code+"'  ");
+		List list=this.findMapObjBySql(sql.toString(), null, 1, 100);
+		return list;
+	}
+	
+	
 	public List<DepartmentInfo> findAllDepartList(Map<String,String> param){
 //		StringBuffer sql = new StringBuffer();
 //		sql.append(" select * from jl_department_info a where 1=1  ");

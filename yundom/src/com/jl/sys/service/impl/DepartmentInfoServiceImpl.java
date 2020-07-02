@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.jl.common.BaseService;
 import com.jl.common.BaseService.MethodLog2;
+import com.jl.common.NewBaseDao;
 import com.jl.sys.dao.DepartmentInfoDao;
 import com.jl.sys.dao.UserInfoDao;
 import com.jl.sys.pojo.DepartmentInfo;
@@ -42,7 +43,18 @@ public class DepartmentInfoServiceImpl extends BaseService<DepartmentInfo> imple
 	}
 
 	@Autowired
+	private NewBaseDao<DepartmentInfo> dpDao;
+	
+	@Autowired
 	private UserInfoDao jlUserInfoDao;
+	
+	
+	
+	
+	public List<Map> findByParentCode(String code){
+		return jlDepartmentInfoDao.findDepartListByPCode(code);
+	}
+	
 	@Override
 	public Map findList(UserInfo user, int page, int rows,
 			Map<String, String> param) {

@@ -272,7 +272,7 @@ public class UserInfoAction extends IAction{
 		String datemin=request.getParameter("datemin");//开始时间
 		String datemax=request.getParameter("datemax");//结束时间
 		String username=request.getParameter("username");//用户名称
-		String departmentid=request.getParameter("departmentcode");//部门id
+		String departmentcode=request.getParameter("departmentcode");//部门id
 		String tpage=request.getParameter("page");
 		String trows=request.getParameter("rows");
 		if(null!=tpage&&!"".equalsIgnoreCase(tpage)){
@@ -285,7 +285,7 @@ public class UserInfoAction extends IAction{
 		param.put("datemin", datemin);
 		param.put("datemax", datemax);
 		param.put("username", username);
-		param.put("departmentid", departmentid);
+		param.put("departmentcode", departmentcode);
 		Map map=jlUserInfoService.findList(user,page,rows,param);
 		List<UserInfo> list=(List<UserInfo>)map.get("list");
 		int countNumber=(Integer)map.get("count");

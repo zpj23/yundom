@@ -12,6 +12,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jl.sys.pojo.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class IAction extends ActionSupport implements ServletRequestAware,ServletResponseAware,SessionAware{
@@ -92,10 +93,9 @@ public class IAction extends ActionSupport implements ServletRequestAware,Servle
 	public void setJorder(String jorder) {
 		Jorder = jorder;
 	}
-//	public SysUserinfo getCurrentUser() {
-//		CurrentUser= (SysUserinfo) request.getSession().getAttribute("iuserinfo");
-//		return CurrentUser;
-//	}
+	public UserInfo getCurrentUser() {
+		return (UserInfo)request.getSession().getAttribute("jluserinfo");
+	}
 	/*public void setCurrentUser(SysUserinfo currentUser) {
 		CurrentUser = currentUser;
 	}*/

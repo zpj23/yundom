@@ -58,6 +58,15 @@ public interface DepartmentInfoDao {
 	public List findTopDepartList();
 	
 	public List<Map> findDepartListByPId(Map<String,String> param);
+	/**
+	 * 根据父级编码查询列表
+	 * @Title findDepartListByPCode
+	 * @param param
+	 * @return
+	 * @author zpj
+	 * @time 2020年7月2日 上午10:49:26
+	 */
+	public List<Map> findDepartListByPCode(String code);
 	
 	
 	public int remove(DepartmentInfo t);

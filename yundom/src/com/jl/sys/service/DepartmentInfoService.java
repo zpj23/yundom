@@ -1,5 +1,6 @@
 package com.jl.sys.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.jl.sys.pojo.DepartmentInfo;
@@ -60,6 +61,16 @@ public interface DepartmentInfoService {
 	 */
 	public String findTopJson();
 	
+	
+	/**
+	 * 根据parentcode 查询列表
+	 * @Title findByParentCode
+	 * @param code
+	 * @return
+	 * @author zpj
+	 * @time 2020年7月2日 上午10:55:47
+	 */
+	public List<Map> findByParentCode(String code);
 	/**
 	 * 删除部门方法
 	 * @Title remove

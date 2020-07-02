@@ -82,7 +82,7 @@ public class ManualCheckInfoAction extends IAction{
 			@Result(name="error",location="/login.jsp")
 	})
 	public String toAdd(){
-		user = (UserInfo)request.getSession().getAttribute("jluserinfo");
+		user = getCurrentUser();
 		String id=request.getParameter("id");
 		if(id!=null&&!id.equalsIgnoreCase("")){
 			cinfo=mService.findById(id);
@@ -103,7 +103,7 @@ public class ManualCheckInfoAction extends IAction{
 			results={
 			@Result(type="json", params={"root","jsonData"})})
 	public void doManageAdd(){
-		user = (UserInfo)request.getSession().getAttribute("jluserinfo");
+		user = getCurrentUser();
 		String detailfields=request.getParameter("detailfileds");
 		String workdate=request.getParameter("workdate");
 		String departmentcode=request.getParameter("departmentcode");
@@ -200,7 +200,7 @@ public class ManualCheckInfoAction extends IAction{
 			results={
 			@Result(type="json", params={"root","jsonData"})})
 	public void doAdd(){
-		user = (UserInfo)request.getSession().getAttribute("jluserinfo");
+		user = getCurrentUser();
 		String staffnames=cinfo.getStaffname();
 		cinfo.setAdddate(new Date());
 		CheckInfo temp=mService.findById(cinfo.getId());
@@ -336,7 +336,7 @@ public class ManualCheckInfoAction extends IAction{
 			@Result(type="json", params={"root","jsonData"})})
 	public void shenhe(){
 		String id=request.getParameter("id");
-		user = (UserInfo)request.getSession().getAttribute("jluserinfo");
+		user = getCurrentUser();
 		int r=mService.saveShenhe(id,user);
 		try {
 			this.jsonWrite(r);
@@ -363,11 +363,25 @@ public class ManualCheckInfoAction extends IAction{
 	
 	
 	@Action(value="jlManualCheckInfoAction_toiframe",results={
-			@Result(name="success",location="sys/manualcheck/list_iframe.jsp"),
-			@Result(name="error",location="/login.jsp")
+			@Result(name="zuzhang",location="sys/manualcheck/zuzhang/list_iframe.jsp"),
+			@Result(name="chejianzhuren",location="sys/manualcheck/chejianzhuren/list_iframe.jsp"),
+			@Result(name="renshi",location="sys/manualcheck/renshi/list_iframe.jsp"),
+			@Result(name="admin",location="sys/manualcheck/list_iframe.jsp"),
+			@Result(name="404",location="/404.jsp")
 	})
 	public String toiframe(){
-		return "success";
+		user=getCurrentUser();
+		String role=user.getIsAdmin();
+		if(role.contains(Role.ZUZHANG.toString())){
+			return "zuzhang";
+		}else if(role.contains(Role.CHEJIANZHUREN.toString())){
+			return "chejianzhuren";
+		}else if(role.contains(Role.RENSHI.toString())){
+			return "renshi";
+		}else if(role.contains(Role.ADMIN.toString())){
+			return "admin";
+		}
+		return "404";
 	}
 	@Action(value="jlManualCheckInfoAction_managerIframe",results={
 			@Result(name="success",location="sys/manualcheck/manager_iframe.jsp"),
@@ -389,7 +403,7 @@ public class ManualCheckInfoAction extends IAction{
 			results={
 			@Result(type="json", params={"root","jsonData"})})
 	public void getListJson(){
-		user = (UserInfo)request.getSession().getAttribute("jluserinfo");
+		user = getCurrentUser();
 		String datemin=request.getParameter("datemin");//开始时间
 		String datemax=request.getParameter("datemax");//结束时间
 		String username=request.getParameter("username");//用户名称
@@ -458,7 +472,7 @@ public class ManualCheckInfoAction extends IAction{
 			@Result(name="success",type="json", params={"root","jsonData"})
 	})
 	public void exportExcel(){
-		user = (UserInfo) request.getSession().getAttribute("jluserinfo");
+		user = getCurrentUser();
 		String datemin=request.getParameter("datemin");//开始时间
 		String datemax=request.getParameter("datemax");//结束时间
 		String username=request.getParameter("username");//用户名称

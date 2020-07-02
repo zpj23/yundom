@@ -20,7 +20,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jl.common.ArgsUtil;
 import com.jl.common.SpringContext;
+import com.jl.common.jwt.JwtUtil;
 import com.jl.sys.pojo.UserInfo;
+
+import io.jsonwebtoken.JwtException;
 
 
 
@@ -58,40 +61,19 @@ public class SetCharacterFilter implements Filter{
 //			System.out.println("执行时间："+System.currentTimeMillis());
 			// 获取session中用户信息jluserinfo
 			UserInfo user = (UserInfo) req.getSession().getAttribute("jluserinfo");		
-			if (user != null) {
-				isLogin = true;
+			if (user == null) {
+				user =getCurrentUser(req);
 			}
-			if(isLogin){
-				if(str_href.indexOf("Action_")!=-1){
-					// 判断是否有访问权限
-					boolean b = true;//this.checkLimit(str_href);
-					if (b == true) {
-						chain.doFilter(servletRequest, servletResponse);
-					} else {
-						req.setAttribute("msg", "您没有权限访问该URL链接地址!");
-						req.getRequestDispatcher("/error.jsp").forward(req, servletResponse);
-					}
-				}else{
-					chain.doFilter(req, servletResponse);
-				}
-			}else if(str_href.indexOf("/yundom")>-1){
-				req.getRequestDispatcher("/login.jsp").forward(req, servletResponse);
-			}else if(str_href.indexOf("/jlLoginAction_checkLogin")>-1){//第一次登录
-				chain.doFilter(servletRequest, servletResponse);
-			}else if(str_href.indexOf("ByPhone")>-1){//手机上的请求
-				chain.doFilter(servletRequest, servletResponse);
-			}else if(str_href.indexOf("ByWx")>-1){//微信上的请求
-				chain.doFilter(servletRequest, servletResponse);
-			}else if(str_href.indexOf("jlDepartmentInfoAction_getDep")>-1){//请求部门信息
-				chain.doFilter(servletRequest, servletResponse);
-			}else if(str_href.indexOf("loginAction_downloadPrintActive")>-1){
-				chain.doFilter(servletRequest, servletResponse);
-			}else if(str_href.indexOf("Action_")>-1){
-				req.getRequestDispatcher("/login.jsp").forward(req, servletResponse);
-			}else if(str_href.indexOf("druid")!=-1){
-				chain.doFilter(servletRequest, servletResponse);
+			if(user!=null){
+				chain.doFilter(req, servletResponse);
 			}else{
-				chain.doFilter(servletRequest, servletResponse);
+				if(str_href.indexOf("/yundom")>-1){
+					req.getRequestDispatcher("/login.jsp").forward(req, servletResponse);
+				}else  if(str_href.indexOf("Action_")>-1){
+					req.getRequestDispatcher("/login.jsp").forward(req, servletResponse);
+				}else{
+					chain.doFilter(servletRequest, servletResponse);
+				}
 			}
 		}catch (Exception e) {
 			System.out.println("错误请求链接："+str_href);
@@ -100,7 +82,28 @@ public class SetCharacterFilter implements Filter{
 		
 	}
 
-
+	public boolean judgeIsPass(String spath){
+		String[] urls = {"jlLoginAction_checkLogin","ByPhone","ByWx","jlDepartmentInfoAction_getDep","controller.jsp","file","v2","swagger","druid","vue","404","500",".js",".css",".ico",".jpeg",".bmp",".jpg",".png",".gif",".htm",".html",".woff",".woff2",".ttf",".mp3",".mp4",".mov",".avi"};
+        boolean flag = true;
+    	for (String str : urls) {
+            if (spath.indexOf(str) != -1) {
+                flag =false;
+                break;
+            }
+        }
+    	return flag;
+        
+	}
+	
+	public UserInfo getCurrentUser(HttpServletRequest request){
+		String token=request.getParameter("token");
+		UserInfo user =null;
+		if(null!=token&&!"".equalsIgnoreCase(token)){
+			user= JwtUtil.getUserByJson(token);
+			request.getSession().setAttribute("jluserinfo", user);
+		}
+		return user;
+	}
 	@Override
 	public void init(FilterConfig config) throws ServletException {		
 		ApplicationContext ac = WebApplicationContextUtils
